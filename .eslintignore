@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Production
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Specific files
+vite.config.js
+jest.config.js

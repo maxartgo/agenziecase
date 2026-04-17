@@ -1,0 +1,322 @@
+<testsuites id="" name="" tests="74" failures="0" skipped="74" errors="0" time="1.8441059999999998">
+<testsuite name="agenziecase.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="10" failures="0" skipped="10" time="0" errors="0">
+<testcase name="AgenzieCase Platform › should load main application" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display property search functionality" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have responsive design" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should handle empty states gracefully" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have working navigation" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display contact information" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should handle error states" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should load images efficiently" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have working property filters" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display property details correctly" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="auth.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Authentication Flow › should show login button on home page" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should have working navigation" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should handle property search" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should be responsive on mobile" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should load without JavaScript errors" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="dashboard.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Dashboard Flow › should redirect to login when accessing protected dashboard" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should display dashboard after login" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should show navigation menu" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should display user profile info when logged in" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should handle logout" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="mobile.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Mobile Experience › should be usable on mobile devices" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should display property cards correctly on mobile" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should have touch-friendly buttons on mobile" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should handle mobile form input" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should work in landscape mode" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="properties.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Properties Flow › should display properties on home page" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should filter properties by city" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should filter properties by price range" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should navigate to property details" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should display property images" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should show property contact form" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should handle pagination if available" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should display property prices correctly" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="smoke.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="chromium" tests="4" failures="0" skipped="4" time="0" errors="0">
+<testcase name="Smoke Tests › should load homepage" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should have working links" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should display content" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should handle 404 gracefully" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="agenziecase.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="10" failures="0" skipped="10" time="0" errors="0">
+<testcase name="AgenzieCase Platform › should load main application" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display property search functionality" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have responsive design" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should handle empty states gracefully" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have working navigation" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display contact information" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should handle error states" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should load images efficiently" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should have working property filters" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="AgenzieCase Platform › should display property details correctly" classname="agenziecase.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="auth.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Authentication Flow › should show login button on home page" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should have working navigation" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should handle property search" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should be responsive on mobile" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Authentication Flow › should load without JavaScript errors" classname="auth.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="dashboard.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Dashboard Flow › should redirect to login when accessing protected dashboard" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should display dashboard after login" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should show navigation menu" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should display user profile info when logged in" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Dashboard Flow › should handle logout" classname="dashboard.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="mobile.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="5" failures="0" skipped="5" time="0" errors="0">
+<testcase name="Mobile Experience › should be usable on mobile devices" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should display property cards correctly on mobile" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should have touch-friendly buttons on mobile" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should handle mobile form input" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Mobile Experience › should work in landscape mode" classname="mobile.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="properties.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Properties Flow › should display properties on home page" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should filter properties by city" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should filter properties by price range" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should navigate to property details" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should display property images" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should show property contact form" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should handle pagination if available" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Properties Flow › should display property prices correctly" classname="properties.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+<testsuite name="smoke.spec.js" timestamp="2026-04-17T11:09:49.740Z" hostname="Mobile Chrome" tests="4" failures="0" skipped="4" time="0" errors="0">
+<testcase name="Smoke Tests › should load homepage" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should have working links" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should display content" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Smoke Tests › should handle 404 gracefully" classname="smoke.spec.js">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>

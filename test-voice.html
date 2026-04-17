@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Browser TTS - Voci Italiane Femminili</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #voiceList {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .voice-item {
+            padding: 8px;
+            margin: 4px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .voice-item.female {
+            background: rgba(255, 182, 193, 0.3);
+            border-left: 3px solid #ff69b4;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎤 Test Browser TTS - Voci Italiane Femminili</h1>
+
+    <div class="test-card">
+        <h2>🔊 Test Voce Femminile Italiana</h2>
+        <p>Test del sistema migliorato di selezione voce femminile italiana</p>
+        <button onclick="testFemaleVoice()">Testa Voce Femminile</button>
+        <button onclick="stopSpeech()">⏹️ Ferma</button>
+        <div id="status" class="status">Pronto</div>
+    </div>
+
+    <div class="test-card">
+        <h2>👥 Tutte le Voci Disponibili</h2>
+        <button onclick="loadVoices()">🔄 Carica Voci</button>
+        <div id="voiceList">
+            <p>Clicca "Carica Voci" per vedere tutte le voci disponibili...</p>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>📝 Test Personalizzato</h2>
+        <textarea id="customText" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: none; margin-bottom: 10px;"
+            placeholder="Inserisci il testo da pronunciare...">Ciao! Sono l'assistente AI di AgenzieCase. Come posso aiutarti a trovare la casa dei tuoi sogni?</textarea>
+        <button onclick="testCustomText()">🔊 Testa Testo</button>
+    </div>
+
+    <script>
+        let voices = [];
+        let selectedVoice = null;
+
+        // Carica voci disponibili
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+            const voiceList = document.getElementById('voiceList');
+            const status = document.getElementById('status');
+
+            if (voices.length === 0) {
+                status.textContent = '⚠️ Nessuna voce trovata. Aspetta qualche secondo e riprova.';
+                return;
+            }
+
+            // Filtra voci italiane
+            const italianVoices = voices.filter(voice =>
+                voice.lang.startsWith('it-') || voice.lang.startsWith('it_')
+            );
+
+            // Cerca voci femminili italiane
+            const femalePatterns = [
+                'female', 'femmina', 'donna', 'isabella', 'eleonor', 'sophie',
+                'alice', 'maria', 'lucia', 'giulia', 'francesca', 'aria', 'elena'
+            ];
+
+            const femaleVoice = italianVoices.find(voice =>
+                femalePatterns.some(pattern =>
+                    voice.name.toLowerCase().includes(pattern)
+                )
+            ) || italianVoices.find(voice =>
+                voice.name.includes('Google') && voice.lang.startsWith('it-')
+            ) || italianVoices.find(voice =>
+                voice.name.includes('Microsoft') && voice.lang.startsWith('it-')
+            ) || italianVoices[0];
+
+            selectedVoice = femaleVoice;
+
+            let html = `<p><strong>Trovate ${voices.length} voci totali, ${italianVoices.length} italiane</strong></p>`;
+
+            html += `<div class="voice-item female">
+                <strong>✅ Voce femminile selezionata:</strong><br>
+                🎤 ${femaleVoice ? femaleVoice.name : 'Nessuna'}<br>
+                🌍 ${femaleVoice ? femaleVoice.lang : 'N/A'}
+            </div>`;
+
+            html += '<h3>Voci Italiane:</h3>';
+            italianVoices.forEach(voice => {
+                const isFemale = femalePatterns.some(pattern =>
+                    voice.name.toLowerCase().includes(pattern)
+                );
+                html += `<div class="voice-item ${isFemale ? 'female' : ''}">
+                    <strong>${voice.name}</strong> (${voice.lang})
+                    ${isFemale ? ' 👩' : ' 👨'}
+                </div>`;
+            });
+
+            voiceList.innerHTML = html;
+            status.textContent = `✅ Caricate ${voices.length} voci, voce femminile: ${femaleVoice ? femaleVoice.name : 'Nessuna'}`;
+        }
+
+        // Test voce femminile
+        function testFemaleVoice() {
+            const status = document.getElementById('status');
+
+            if (!selectedVoice) {
+                loadVoices();
+                if (!selectedVoice) {
+                    status.textContent = '❌ Nessuna voce italiana trovata';
+                    return;
+                }
+            }
+
+            const text = "Ciao! Sono l'assistente AI di AgenzieCase. Ho trovato alcune proprietà interessanti per te. A Milano abbiamo un attico con terrazza panoramica a Porta Nuova per un milione duecentocinquanta mila euro, cento ottanta metri quadri con quattro locali. Oppure, se preferisci qualcosa di più piccolo, abbiamo un monolocale centrale ristrutturato a Navigli per novecentocinquanta euro al mese.";
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.voice = selectedVoice;
+            utterance.lang = 'it-IT';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+
+            utterance.onstart = () => {
+                status.textContent = `▶️ Riproduzione con voce: ${selectedVoice.name}`;
+            };
+
+            utterance.onend = () => {
+                status.textContent = `✅ Riproduzione completata con: ${selectedVoice.name}`;
+            };
+
+            utterance.onerror = (e) => {
+                status.textContent = `❌ Errore: ${e.error}`;
+            };
+
+            window.speechSynthesis.cancel(); // Ferma eventuali riproduzioni precedenti
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Test testo personalizzato
+        function testCustomText() {
+            const text = document.getElementById('customText').value;
+            const status = document.getElementById('status');
+
+            if (!text || text.trim().length === 0) {
+                status.textContent = '⚠️ Inserisci del testo';
+                return;
+            }
+
+            if (!selectedVoice) {
+                loadVoices();
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            utterance.lang = 'it-IT';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+
+            utterance.onstart = () => {
+                status.textContent = `▶️ Riproduzione...`;
+            };
+
+            utterance.onend = () => {
+                status.textContent = `✅ Completato`;
+            };
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Ferma riproduzione
+        function stopSpeech() {
+            window.speechSynthesis.cancel();
+            document.getElementById('status').textContent = '⏹️ Fermato';
+        }
+
+        // Carica voci quando la pagina è pronta
+        window.addEventListener('load', () => {
+            loadVoices();
+        });
+
+        // Ricarica voci quando cambiano (alcuni browser le caricano async)
+        window.speechSynthesis.onvoiceschanged = () => {
+            loadVoices();
+        };
+    </script>
+</body>
+</html>
