@@ -3,7 +3,7 @@
  * Centralizza l'URL del backend per facilitare modifiche
  */
 
-export const API_BASE_URL = 'http://localhost:3456';
+export const API_BASE_URL = '/api';
 
 /**
  * Helper per costruire URL completi delle API
