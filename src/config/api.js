@@ -3,7 +3,7 @@
  * Centralizza l'URL del backend per facilitare modifiche
  */
 
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = ''; // Use empty string since frontend already includes /api in calls
 
 /**
  * Helper per costruire URL completi delle API
