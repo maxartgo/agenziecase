@@ -13,3 +13,4 @@ temp-*
 *.pem
 *.key
  agenziecase-complete.tar.gz
+.env.production
