@@ -62,4 +62,4 @@ router.post('/test-welcome', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
