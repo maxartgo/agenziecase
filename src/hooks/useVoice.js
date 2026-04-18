@@ -115,8 +115,33 @@ export const useVoice = () => {
       recognitionRef.current.start();
     } catch (err) {
       console.error('Errore avvio recognition:', err);
+
+      if (err.name === 'NotAllowedError') {
+        setError('Microfono bloccato! Clicca 🔒 nella barra indirizzi > Microfono > Permetti');
+      } else {
+        setError('Impossibile avviare il microfono: ' + err.message);
+      }
+
       setIsListening(false);
-      setError('Impossibile avviare il microfono');
+    }
+  };
+
+  /**
+   * Apre le impostazioni del microfono per il sito corrente
+   */
+  const openMicrophoneSettings = () => {
+    // Prova ad aprire le impostazioni del sito per diversi browser
+    const currentUrl = window.location.href;
+
+    if (navigator.userAgent.includes('Chrome')) {
+      // Chrome/Edge
+      window.open(`chrome://settings/content/microphone?detail=${currentUrl}`, '_blank');
+    } else if (navigator.userAgent.includes('Firefox')) {
+      // Firefox
+      window.open('about:preferences#privacy', '_blank');
+    } else if (navigator.userAgent.includes('Safari')) {
+      // Safari
+      alert('Vai su Preferenze > Privacy > Microfono e permetti a questo sito');
     }
   };
 
