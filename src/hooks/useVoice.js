@@ -52,7 +52,19 @@ export const useVoice = () => {
     // Gestisci errori
     recognition.onerror = (event) => {
       console.error('Errore speech recognition:', event.error);
-      setError(`Errore: ${event.error}`);
+
+      let errorMessage = `Errore: ${event.error}`;
+
+      // Messaggi specifici per errori comuni
+      if (event.error === 'not-allowed') {
+        errorMessage = 'Microfono bloccato. Vai su impostazioni browser > privacy > microfono > permetti a agenziecase.com';
+      } else if (event.error === 'no-speech') {
+        errorMessage = 'Nessun parlato rilevato. Prova di nuovo.';
+      } else if (event.error === 'audio-capture') {
+        errorMessage = 'Microfono non disponibile o in uso da un\'altra app.';
+      }
+
+      setError(errorMessage);
       setIsListening(false);
     };
 
