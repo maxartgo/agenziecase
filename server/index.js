@@ -46,6 +46,9 @@ import notificationsRoutes from './routes/notifications.js';
 // Performance Monitoring Routes
 import performanceRoutes from './routes/performance.js';
 
+// Email Testing Routes
+import testEmailRoutes from './routes/testEmail.js';
+
 // Environment validation
 import { validateEnvVariables } from './config/envValidation.js';
 
@@ -266,6 +269,9 @@ app.use('/api/notifications', notificationsRoutes);
 
 // Performance Monitoring Routes
 app.use('/api/performance', performanceRoutes);
+
+// Email testing routes (development/testing)
+app.use('/api/test', testEmailRoutes);
 
 // Endpoint di test
 app.get('/api/health', (req, res) => {
