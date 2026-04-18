@@ -84,8 +84,7 @@ const Partner = sequelize.define('Partner', {
   // Stato del partner
   status: {
     type: DataTypes.ENUM('pending', 'active', 'suspended', 'cancelled'),
-    defaultValue: 'pending',
-    comment: 'pending: in attesa approvazione, active: attivo con subscription, suspended: sospeso, cancelled: cancellato'
+    defaultValue: 'pending'
   },
 
   // Note interne (solo admin)

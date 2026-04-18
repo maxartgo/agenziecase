@@ -11,8 +11,7 @@ const Subscription = sequelize.define('Subscription', {
   plan: {
     type: DataTypes.ENUM('starter', 'professional', 'enterprise'),
     allowNull: false,
-    defaultValue: 'starter',
-    comment: 'starter: base, professional: medio, enterprise: completo'
+    defaultValue: 'starter'
   },
 
   // Dettagli piano
@@ -55,8 +54,7 @@ const Subscription = sequelize.define('Subscription', {
   // Stato abbonamento
   status: {
     type: DataTypes.ENUM('pending', 'active', 'expired', 'cancelled'),
-    defaultValue: 'pending',
-    comment: 'pending: in attesa pagamento, active: attivo, expired: scaduto, cancelled: cancellato'
+    defaultValue: 'pending'
   },
 
   // Informazioni pagamento

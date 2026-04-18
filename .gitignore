@@ -1,1 +1,15 @@
 node_modules
+# Environment files
+server/.env
+.env.local
+.env.production
+
+# Temporary files
+*.conf
+temp-*
+*.tar.gz
+
+# SSH keys (already there but just to be sure)
+*.pem
+*.key
+ agenziecase-complete.tar.gz
