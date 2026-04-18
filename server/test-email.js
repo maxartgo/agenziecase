@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransporter({
   secure: true,
   auth: {
     user: 'info@agenziecase.com',
-    pass: 'Maxzxcvbnm75@'
+    pass: process.env.SMTP_PASSWORD || 'YOUR_SMTP_PASSWORD_HERE'
   },
   tls: {
     rejectUnauthorized: false
