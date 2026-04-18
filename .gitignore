@@ -1,8 +1,13 @@
 node_modules
-# Environment files
+# Environment files (SECURITY: Never commit credentials)
 server/.env
 .env.local
 .env.production  # Contains production credentials - never commit this file
+*.env
+
+# Files with potential credentials (SECURITY RISK)
+**/test-email.js
+**/config-email-ovh.sh
 
 # Temporary files
 *.conf
