@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { sendEmail, emailTemplates } = require('../config/email');
+import { sendEmail, emailTemplates } from '../config/email.js';
 
 // Test email semplice
 router.post('/test-simple', async (req, res) => {

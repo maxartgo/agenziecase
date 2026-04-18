@@ -1,5 +1,5 @@
 // Email configuration with OVH SMTP
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 const createEmailTransporter = () => {
   return nodemailer.createTransporter({
@@ -115,7 +115,7 @@ const emailTemplates = {
   `
 };
 
-module.exports = {
+export {
   sendEmail,
   createEmailTransporter,
   emailTemplates
