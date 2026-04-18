@@ -19,6 +19,10 @@ export const corsOptions = {
     // In produzione, aggiungere domini reali
     if (process.env.NODE_ENV === 'production') {
       allowedOrigins.push(
+        'http://agenziecase.com',
+        'https://agenziecase.com',
+        'http://www.agenziecase.com',
+        'https://www.agenziecase.com',
         'https://agenziecase.it',
         'https://www.agenziecase.it'
       );
