@@ -53,9 +53,19 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRE: 7d
       GROQ_API_KEY: ${GROQ_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       FRONTEND_URL: ${FRONTEND_URL}
+      # Email Configuration
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      EMAIL_FROM: ${EMAIL_FROM}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME}
+      EMAIL_REPLY_TO: ${EMAIL_REPLY_TO}
     ports:
       - "3001:3001"
     depends_on:
