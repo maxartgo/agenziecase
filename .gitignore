@@ -10,9 +10,12 @@ server/.env
 **/config-email-ovh.sh
 
 # Temporary files
-*.conf
 temp-*
 *.tar.gz
+
+# Nginx configs (but keep SSL configs)
+temp-*.conf
+nginx.conf
 
 # SSH keys (already there but just to be sure)
 *.pem
