@@ -13,6 +13,14 @@ server/.env
 temp-*
 *.tar.gz
 
+# Claude Code workspace
+.claude/
+
+# Development/fix scripts
+fix-localhost-urls.cjs
+nginx-temp-http.conf
+server/create-admin.js
+
 # Nginx configs (but keep SSL configs)
 temp-*.conf
 nginx.conf
