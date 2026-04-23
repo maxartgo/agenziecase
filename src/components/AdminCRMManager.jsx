@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Admin CRM Manager
@@ -24,31 +26,31 @@ const AdminCRMManager = ({ token }) => {
       setLoading(true);
 
       if (activeSection === 'clients') {
-        const response = await fetch('http://localhost:3001/api/crm/clients', {
+        const response = await fetch('${API_BASE_URL}/api/crm/clients', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
         if (data.success) setClients(data.clients || []);
       } else if (activeSection === 'appointments') {
-        const response = await fetch('http://localhost:3001/api/crm/appointments', {
+        const response = await fetch('${API_BASE_URL}/api/crm/appointments', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
         if (data.success) setAppointments(data.appointments || []);
       } else if (activeSection === 'deals') {
-        const response = await fetch('http://localhost:3001/api/crm/deals', {
+        const response = await fetch('${API_BASE_URL}/api/crm/deals', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
         if (data.success) setDeals(data.deals || []);
       } else if (activeSection === 'activities') {
-        const response = await fetch('http://localhost:3001/api/crm/activities', {
+        const response = await fetch('${API_BASE_URL}/api/crm/activities', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
         if (data.success) setActivities(data.activities || []);
       } else if (activeSection === 'documents') {
-        const response = await fetch('http://localhost:3001/api/crm/documents', {
+        const response = await fetch('${API_BASE_URL}/api/crm/documents', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -65,7 +67,7 @@ const AdminCRMManager = ({ token }) => {
     if (!confirm('Sei sicuro di voler eliminare questo elemento?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/crm/${itemType}/${itemId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/crm/${itemType}/${itemId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

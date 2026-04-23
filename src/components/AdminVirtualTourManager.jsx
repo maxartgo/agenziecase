@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Dashboard Admin per gestire richieste Virtual Tour
@@ -20,7 +22,7 @@ const AdminVirtualTourManager = ({ token }) => {
     try {
       setLoading(true);
 
-      const response = await fetch('http://localhost:3001/api/virtual-tour-requests/admin/pending', {
+      const response = await fetch('${API_BASE_URL}/api/virtual-tour-requests/admin/pending', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -52,7 +54,7 @@ const AdminVirtualTourManager = ({ token }) => {
     try {
       setProcessing(true);
 
-      const response = await fetch('http://localhost:3001/api/virtual-tour-requests/admin/complete', {
+      const response = await fetch('${API_BASE_URL}/api/virtual-tour-requests/admin/complete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ const AdminVirtualTourManager = ({ token }) => {
     try {
       setProcessing(true);
 
-      const response = await fetch('http://localhost:3001/api/virtual-tour-requests/admin/reject', {
+      const response = await fetch('${API_BASE_URL}/api/virtual-tour-requests/admin/reject', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

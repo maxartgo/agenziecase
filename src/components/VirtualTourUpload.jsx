@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Componente per upload foto Virtual Tour
@@ -24,7 +26,7 @@ const VirtualTourUpload = ({ token }) => {
       setLoading(true);
 
       // Carica properties del partner
-      const propsResponse = await fetch('http://localhost:3001/api/properties', {
+      const propsResponse = await fetch('${API_BASE_URL}/api/properties', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -35,7 +37,7 @@ const VirtualTourUpload = ({ token }) => {
       }
 
       // Carica richieste esistenti
-      const reqResponse = await fetch('http://localhost:3001/api/virtual-tour-requests/partner', {
+      const reqResponse = await fetch('${API_BASE_URL}/api/virtual-tour-requests/partner', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -46,7 +48,7 @@ const VirtualTourUpload = ({ token }) => {
       }
 
       // Carica crediti
-      const creditsResponse = await fetch('http://localhost:3001/api/virtual-tour-packs/credits', {
+      const creditsResponse = await fetch('${API_BASE_URL}/api/virtual-tour-packs/credits', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -100,7 +102,7 @@ const VirtualTourUpload = ({ token }) => {
         formData.append('photos', photo);
       });
 
-      const response = await fetch('http://localhost:3001/api/virtual-tour-requests/upload', {
+      const response = await fetch('${API_BASE_URL}/api/virtual-tour-requests/upload', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Pagina acquisto Virtual Tour Packs
@@ -20,7 +22,7 @@ const VirtualTourPacks = ({ token }) => {
       setLoading(true);
 
       // Carica pack disponibili
-      const packsResponse = await fetch('http://localhost:3001/api/virtual-tour-packs', {
+      const packsResponse = await fetch('${API_BASE_URL}/api/virtual-tour-packs', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -29,7 +31,7 @@ const VirtualTourPacks = ({ token }) => {
       const packsData = await packsResponse.json();
 
       // Carica crediti attuali
-      const creditsResponse = await fetch('http://localhost:3001/api/virtual-tour-packs/credits', {
+      const creditsResponse = await fetch('${API_BASE_URL}/api/virtual-tour-packs/credits', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -61,7 +63,7 @@ const VirtualTourPacks = ({ token }) => {
       setPurchasing(true);
       setSelectedPack(pack.plan_type);
 
-      const response = await fetch('http://localhost:3001/api/virtual-tour-packs/purchase', {
+      const response = await fetch('${API_BASE_URL}/api/virtual-tour-packs/purchase', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

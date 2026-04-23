@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Admin Partners Manager
@@ -19,7 +21,7 @@ const AdminPartnersManager = ({ token }) => {
       setLoading(true);
 
       // Load all partners
-      const response = await fetch('http://localhost:3001/api/partners', {
+      const response = await fetch('${API_BASE_URL}/api/partners', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -43,7 +45,7 @@ const AdminPartnersManager = ({ token }) => {
     if (!confirm('Approvare questo partner?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/partners/${partnerId}/approve`, {
+      const response = await fetch(`${API_BASE_URL}/api/partners/${partnerId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -69,7 +71,7 @@ const AdminPartnersManager = ({ token }) => {
     if (!reason) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/partners/${partnerId}/reject`, {
+      const response = await fetch(`${API_BASE_URL}/api/partners/${partnerId}/reject`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -95,7 +97,7 @@ const AdminPartnersManager = ({ token }) => {
     if (!confirm('Sospendere questo partner?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/partners/${partnerId}/suspend`, {
+      const response = await fetch(`${API_BASE_URL}/api/partners/${partnerId}/suspend`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -120,7 +122,7 @@ const AdminPartnersManager = ({ token }) => {
     if (!confirm('Riattivare questo partner?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/partners/${partnerId}/activate`, {
+      const response = await fetch(`${API_BASE_URL}/api/partners/${partnerId}/activate`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

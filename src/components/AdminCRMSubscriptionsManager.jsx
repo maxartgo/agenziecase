@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Admin CRM Subscriptions Manager
@@ -25,7 +27,7 @@ const AdminCRMSubscriptionsManager = ({ token }) => {
   const loadSubscriptions = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/api/admin/crm-subscriptions', {
+      const response = await fetch('${API_BASE_URL}/api/admin/crm-subscriptions', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -84,7 +86,7 @@ const AdminCRMSubscriptionsManager = ({ token }) => {
     try {
       setActivating(true);
 
-      const response = await fetch(`http://localhost:3001/api/admin/crm-subscriptions/${selectedPartner.id}/activate`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/crm-subscriptions/${selectedPartner.id}/activate`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

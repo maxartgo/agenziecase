@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 import { BasicInfo, LocationDetails, PropertyFeatures, ImageUpload, MLSSettings } from './index.js';
 
 /**
@@ -109,7 +111,7 @@ const PropertyCreateModalNew = ({ isOpen, onClose, onSuccess, partnerId, agentId
       });
 
       // Upload su Cloudinary e creazione proprietà
-      const response = await fetch('http://localhost:3001/api/properties', {
+      const response = await fetch('${API_BASE_URL}/api/properties', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

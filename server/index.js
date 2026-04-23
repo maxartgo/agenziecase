@@ -9,6 +9,7 @@ import { testConnection } from './config/database.js';
 import { connectRedis as initRedis, disconnectRedis as closeRedis } from './config/redis.js';
 import { performanceMiddleware, getPerformanceMetrics } from './middleware/performance.js';
 import { setupSecurity, customSecurityHeaders } from './middleware/security.js';
+import Property from './models/Property.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import partnerRoutes from './routes/partners.js';
@@ -45,6 +46,10 @@ import notificationsRoutes from './routes/notifications.js';
 
 // Performance Monitoring Routes
 import performanceRoutes from './routes/performance.js';
+
+// Admin Profile & Coupons
+import adminProfileRoutes from './routes/adminProfile.js';
+import discountCouponsRoutes from './routes/discountCoupons.js';
 
 // Email Testing Routes
 import testEmailRoutes from './routes/testEmail.js';
@@ -91,28 +96,46 @@ Il tuo compito è aiutare gli utenti a:
 - Consigliare sulla scelta della casa ideale
 - Rispondere a domande su mutui, tasse, documenti
 - Fornire stime di prezzo per zona
+- Aiutare a contattare gli agenti per visite e informazioni
 
-Hai accesso a questi immobili nel database:
-1. Attico con terrazza panoramica - Milano, Porta Nuova - €1.250.000 - 180mq, 4 locali
-2. Loft industriale ristrutturato - Torino, San Salvario - €320.000 - 120mq, 2 locali
-3. Villa con giardino privato - Roma, EUR - €890.000 - 250mq, 5 locali
-4. Bilocale moderno zona università - Bologna, Centro - €1.200/mese - 55mq, 2 locali
-5. Appartamento vista mare - Genova, Nervi - €485.000 - 95mq, 3 locali
-6. Rustico ristrutturato in collina - Firenze, Chianti - €720.000 - 200mq, 4 locali
-7. Penthouse con piscina privata - Napoli, Posillipo - €1.850.000 - 280mq, 5 locali
-8. Monolocale centrale ristrutturato - Milano, Navigli - €950/mese - 35mq, 1 locale
+Hai accesso al database in tempo reale con tutti gli immobili disponibili.
+Quando un utente chiede disponibilità o cerca immobili, userai i dati forniti nel contesto.
 
 Rispondi sempre in italiano, in modo cordiale e professionale. Sii conciso ma utile.
-Quando suggerisci immobili, menziona sempre il prezzo e le caratteristiche principali.`;
+Quando suggerisci immobili, menziona sempre il prezzo e le caratteristiche principali.
+Se non ci sono immobili disponibili che corrispondono ai criteri, informa l'utente e suggerisci di ampliare la ricerca o contattare un agente.`;
 
 // Endpoint per la chat con Groq (Llama 3.3 - velocissimo!)
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, history = [] } = req.body;
 
+    // Recupera le proprietà disponibili dal database
+    const availableProperties = await Property.findAll({
+      where: { status: 'disponibile' },
+      attributes: ['id', 'title', 'description', 'city', 'location', 'price', 'sqm', 'rooms', 'bathrooms', 'type', 'propertyType', 'highlight', 'energyClass', 'hasParking', 'hasElevator', 'hasGarden', 'hasBalcony'],
+      order: [['featured', 'DESC'], ['created_at', 'DESC']],
+      limit: 50
+    });
+
+    // Formatta le proprietà per il contesto AI
+    let propertyContext = '';
+    if (availableProperties.length > 0) {
+      propertyContext = '\n\nIMMOBILI DISPONIBILI:\n';
+      availableProperties.forEach((prop, index) => {
+        const price = prop.type === 'Affitto' ? `€${prop.price}/mese` : `€${Number(prop.price).toLocaleString('it-IT')}`;
+        propertyContext += `${index + 1}. ${prop.title} - ${prop.city}, ${prop.location} - ${price} - ${prop.sqm}mq, ${prop.rooms} locali`;
+        if (prop.propertyType) propertyContext += ` - ${prop.propertyType}`;
+        if (prop.highlight) propertyContext += ` - ${prop.highlight}`;
+        propertyContext += '\n';
+      });
+    } else {
+      propertyContext = '\n\nAl momento non ci sono immobili disponibili nel database.';
+    }
+
     // Costruisci l'array di messaggi per Groq
     const messages = [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: SYSTEM_PROMPT + propertyContext },
       ...history.map(m => ({
         role: m.role === 'assistant' ? 'assistant' : m.role,
         content: m.content
@@ -142,9 +165,31 @@ app.post('/api/chat', async (req, res) => {
 
     const data = await response.json();
 
+    // Restituisci sia il messaggio dell'AI che i dati completi delle proprietà
     res.json({
       success: true,
-      message: data.choices[0].message.content
+      message: data.choices[0].message.content,
+      properties: availableProperties.map(prop => ({
+        id: prop.id,
+        title: prop.title,
+        description: prop.description,
+        city: prop.city,
+        location: prop.location,
+        price: prop.price,
+        sqm: prop.sqm,
+        rooms: prop.rooms,
+        bathrooms: prop.bathrooms,
+        type: prop.type,
+        propertyType: prop.propertyType,
+        highlight: prop.highlight,
+        energyClass: prop.energyClass,
+        hasParking: prop.hasParking,
+        hasElevator: prop.hasElevator,
+        hasGarden: prop.hasGarden,
+        hasBalcony: prop.hasBalcony,
+        images: prop.images,
+        mainImage: prop.mainImage
+      }))
     });
 
   } catch (error) {
@@ -269,6 +314,10 @@ app.use('/api/notifications', notificationsRoutes);
 
 // Performance Monitoring Routes
 app.use('/api/performance', performanceRoutes);
+
+// Admin Profile & Coupons
+app.use('/api/admin/profile', adminProfileRoutes);
+app.use('/api/admin/coupons', discountCouponsRoutes);
 
 // Email testing routes (development/testing)
 app.use('/api/test', testEmailRoutes);

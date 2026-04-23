@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * MLS Browser - Esplora immobili condivisi da altri partner
@@ -37,7 +39,7 @@ const MLSBrowser = ({ token }) => {
       if (filters.propertyType) queryParams.append('propertyType', filters.propertyType);
       if (filters.bedrooms) queryParams.append('bedrooms', filters.bedrooms);
 
-      const response = await fetch(`http://localhost:3001/api/mls/properties?${queryParams}`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/properties?${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -56,7 +58,7 @@ const MLSBrowser = ({ token }) => {
 
   const loadStats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/mls/stats', {
+      const response = await fetch('${API_BASE_URL}/api/mls/stats', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -81,7 +83,7 @@ const MLSBrowser = ({ token }) => {
 
     try {
       setRequesting(true);
-      const response = await fetch('http://localhost:3001/api/mls/collaborations/request', {
+      const response = await fetch('${API_BASE_URL}/api/mls/collaborations/request', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -405,7 +407,7 @@ const MLSBrowser = ({ token }) => {
               <div style={{
                 height: '200px',
                 backgroundImage: property.images && property.images.length > 0
-                  ? `url(http://localhost:3001${property.images[0]})`
+                  ? `url(${API_BASE_URL}${property.images[0]})`
                   : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',

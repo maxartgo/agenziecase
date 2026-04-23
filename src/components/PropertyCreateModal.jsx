@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Modal per creare un nuovo annuncio immobiliare
@@ -238,7 +240,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
       });
 
       // Upload a server
-      const response = await fetch('http://localhost:3001/api/upload/images', {
+      const response = await fetch('${API_BASE_URL}/api/upload/images', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -255,7 +257,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
       console.log(`✅ Uploaded ${data.count} images`);
 
       // Ritorna array di URL completi
-      return data.images.map(url => `http://localhost:3001${url}`);
+      return data.images.map(url => `${API_BASE_URL}${url}`);
 
     } catch (error) {
       console.error('❌ Upload error:', error);
@@ -273,7 +275,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
         formData.append('floorplans', file);
       });
 
-      const response = await fetch('http://localhost:3001/api/upload/floorplans', {
+      const response = await fetch('${API_BASE_URL}/api/upload/floorplans', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -288,7 +290,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
       }
 
       console.log(`✅ Uploaded ${data.count} floor plans`);
-      return data.floorplans.map(url => `http://localhost:3001${url}`);
+      return data.floorplans.map(url => `${API_BASE_URL}${url}`);
 
     } catch (error) {
       console.error('❌ Floor plans upload error:', error);
@@ -306,7 +308,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
         formData.append('videos', file);
       });
 
-      const response = await fetch('http://localhost:3001/api/upload/videos', {
+      const response = await fetch('${API_BASE_URL}/api/upload/videos', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -321,7 +323,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
       }
 
       console.log(`✅ Uploaded ${data.count} videos`);
-      return data.videos.map(url => `http://localhost:3001${url}`);
+      return data.videos.map(url => `${API_BASE_URL}${url}`);
 
     } catch (error) {
       console.error('❌ Video upload error:', error);
@@ -379,7 +381,7 @@ const PropertyCreateModal = ({ isOpen, onClose, onSuccess, partnerId, agentId })
       };
 
       // Crea annuncio
-      const response = await fetch('http://localhost:3001/api/properties', {
+      const response = await fetch('${API_BASE_URL}/api/properties', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

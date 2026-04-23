@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * CRM Subscription Plans Component
@@ -87,7 +89,7 @@ const CRMSubscriptionPlans = ({ token, onSubscribe }) => {
     try {
       setSubscribing(true);
 
-      const response = await fetch('http://localhost:3001/api/crm-subscriptions/subscribe', {
+      const response = await fetch('${API_BASE_URL}/api/crm-subscriptions/subscribe', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

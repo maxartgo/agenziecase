@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Centro Notifiche Completo
@@ -18,7 +20,7 @@ const NotificationCenter = ({ token, onNavigate }) => {
   const loadNotifications = async () => {
     setLoading(true);
     try {
-      let url = 'http://localhost:3001/api/notifications?limit=100';
+      let url = '${API_BASE_URL}/api/notifications?limit=100';
 
       if (filter === 'unread') url += '&isRead=false';
       if (filter === 'read') url += '&isRead=true';
@@ -41,7 +43,7 @@ const NotificationCenter = ({ token, onNavigate }) => {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/notifications/${notificationId}/read`, {
+      const response = await fetch(`${API_BASE_URL}/api/notifications/${notificationId}/read`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -58,7 +60,7 @@ const NotificationCenter = ({ token, onNavigate }) => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/notifications/read-all', {
+      const response = await fetch('${API_BASE_URL}/api/notifications/read-all', {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -75,7 +77,7 @@ const NotificationCenter = ({ token, onNavigate }) => {
     if (!confirm('Eliminare questa notifica?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/notifications/${notificationId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/notifications/${notificationId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Admin Properties Manager
@@ -20,7 +22,7 @@ const AdminPropertiesManager = ({ token }) => {
     try {
       setLoading(true);
 
-      const response = await fetch('http://localhost:3001/api/properties?limit=100', {
+      const response = await fetch('${API_BASE_URL}/api/properties?limit=100', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -39,7 +41,7 @@ const AdminPropertiesManager = ({ token }) => {
     if (!confirm(`Cambiare lo status dell'immobile a "${newStatus}"?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/properties/${propertyId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/properties/${propertyId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -65,7 +67,7 @@ const AdminPropertiesManager = ({ token }) => {
     if (!confirm('Sei sicuro di voler eliminare questo immobile? Questa azione è irreversibile.')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/properties/${propertyId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/properties/${propertyId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -85,7 +87,7 @@ const AdminPropertiesManager = ({ token }) => {
 
   const handleFeature = async (propertyId, featured) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/properties/${propertyId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/properties/${propertyId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

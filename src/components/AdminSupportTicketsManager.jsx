@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 const AdminSupportTicketsManager = () => {
   const [tickets, setTickets] = useState([]);
@@ -21,8 +23,8 @@ const AdminSupportTicketsManager = () => {
     try {
       setLoading(true);
       const url = filter === 'all'
-        ? 'http://localhost:3001/api/admin/support-tickets'
-        : `http://localhost:3001/api/admin/support-tickets?status=${filter}`;
+        ? '${API_BASE_URL}/api/admin/support-tickets'
+        : `${API_BASE_URL}/api/admin/support-tickets?status=${filter}`;
 
       const response = await fetch(url, {
         headers: {
@@ -43,7 +45,7 @@ const AdminSupportTicketsManager = () => {
 
   const loadStats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/admin/support-tickets/stats', {
+      const response = await fetch('${API_BASE_URL}/api/admin/support-tickets/stats', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -60,7 +62,7 @@ const AdminSupportTicketsManager = () => {
 
   const loadTicketDetails = async (ticketId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${ticketId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${ticketId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -82,7 +84,7 @@ const AdminSupportTicketsManager = () => {
 
     try {
       setSendingReply(true);
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${selectedTicket.id}/responses`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${selectedTicket.id}/responses`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -107,7 +109,7 @@ const AdminSupportTicketsManager = () => {
 
   const updateTicketStatus = async (ticketId, status) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${ticketId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${ticketId}/status`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -130,7 +132,7 @@ const AdminSupportTicketsManager = () => {
 
   const updateTicketPriority = async (ticketId, priority) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/admin/support-tickets/${ticketId}/priority`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/support-tickets/${ticketId}/priority`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -154,7 +156,7 @@ const AdminSupportTicketsManager = () => {
   const assignTicket = async (ticketId) => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
-      const response = await fetch(`http://localhost:3001/api/admin/support-tickets/${ticketId}/assign`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/support-tickets/${ticketId}/assign`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

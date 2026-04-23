@@ -10,6 +10,7 @@ import Appointment from './Appointment.js';
 import Deal from './Deal.js';
 import Activity from './Activity.js';
 import Document from './Document.js';
+import DiscountCoupon from './DiscountCoupon.js';
 
 // ============================================
 // RELAZIONI USER - FAVORITES - PROPERTY
@@ -351,7 +352,8 @@ export {
   Appointment,
   Deal,
   Activity,
-  Document
+  Document,
+  DiscountCoupon
 };
 
 // Funzione per sincronizzare il database

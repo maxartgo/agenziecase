@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Componente per gestire i lead generati da collaborazioni MLS
@@ -34,7 +36,7 @@ const MLSLeads = ({ token }) => {
   const loadLeads = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/mls/leads${filterStatus !== 'all' ? `?status=${filterStatus}` : ''}`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/leads${filterStatus !== 'all' ? `?status=${filterStatus}` : ''}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -51,7 +53,7 @@ const MLSLeads = ({ token }) => {
 
   const loadMyProperties = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/properties?my=true', {
+      const response = await fetch('${API_BASE_URL}/api/properties?my=true', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -66,7 +68,7 @@ const MLSLeads = ({ token }) => {
   const handleAddLead = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/api/mls/leads', {
+      const response = await fetch('${API_BASE_URL}/api/mls/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ const MLSLeads = ({ token }) => {
 
   const handleUpdateLeadStatus = async (leadId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/mls/leads/${leadId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/leads/${leadId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

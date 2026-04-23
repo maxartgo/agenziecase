@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { API_BASE_URL } from '../config/api';
 
-const API_URL = 'http://localhost:3001/api';
+
+const API_URL = '${API_BASE_URL}/api';
 
 const AuthModal = ({ isOpen, onClose, onSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);

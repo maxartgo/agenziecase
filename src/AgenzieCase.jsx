@@ -1089,6 +1089,7 @@ const AgenzieCase = () => {
   const [aiLoading, setAiLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState([]); // Cronologia messaggi [{role: 'user'|'assistant', content: '...'}]
   const [showChatBox, setShowChatBox] = useState(false); // Chat box persistente
+  const [chatProperties, setChatProperties] = useState([]); // Proprietà restituite dalla chat
 
   // Stati per Modal
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
@@ -1209,6 +1210,13 @@ const AgenzieCase = () => {
           const data = await response.json();
 
           if (data.success) {
+            // Salva le proprietà restituite dalla chat
+            if (data.properties && data.properties.length > 0) {
+              setChatProperties(data.properties);
+            } else {
+              setChatProperties([]);
+            }
+
             // Aggiungi alla cronologia
             setChatHistory(prev => [...prev,
               { role: 'user', content: userMessage },
@@ -1229,7 +1237,12 @@ const AgenzieCase = () => {
               setActiveFilter('vendita');
             }
 
-            setShowResults(true);
+            // Mostra i risultati solo se ci sono proprietà
+            if (data.properties && data.properties.length > 0) {
+              setShowResults(true);
+            } else {
+              setShowResults(false);
+            }
             setShowChatBox(true);
           } else {
             const errorMsg = 'Mi dispiace, non sono riuscito a elaborare la tua richiesta. Riprova!';
@@ -1315,6 +1328,13 @@ const AgenzieCase = () => {
       const data = await response.json();
 
       if (data.success) {
+        // Salva le proprietà restituite dalla chat
+        if (data.properties && data.properties.length > 0) {
+          setChatProperties(data.properties);
+        } else {
+          setChatProperties([]);
+        }
+
         // Aggiungi messaggio AI alla cronologia
         setChatHistory(prev => [...prev,
           { role: 'user', content: userMessage },
@@ -1342,8 +1362,12 @@ const AgenzieCase = () => {
           setActiveFilter('vendita');
         }
 
-        // MOSTRA I RISULTATI dopo la ricerca AI
-        setShowResults(true);
+        // MOSTRA I RISULTATI solo se ci sono proprietà
+        if (data.properties && data.properties.length > 0) {
+          setShowResults(true);
+        } else {
+          setShowResults(false);
+        }
 
         // Apri il chat box se non è già aperto
         setShowChatBox(true);
@@ -1658,6 +1682,46 @@ const AgenzieCase = () => {
                   </div>
                 </div>
               ))}
+
+              {/* Mostra proprietà della chat quando ci sono */}
+              {chatProperties.length > 0 && (
+                <div style={{
+                  marginTop: '1.5rem',
+                  padding: '1rem',
+                  background: 'rgba(212, 175, 55, 0.05)',
+                  border: '1px solid rgba(212, 175, 55, 0.2)',
+                  borderRadius: '12px'
+                }}>
+                  <div style={{
+                    color: '#d4af37',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    marginBottom: '1rem',
+                    textAlign: 'center'
+                  }}>
+                    🏠 {chatProperties.length} {chatProperties.length === 1 ? 'Immobile disponibile' : 'Immobili disponibili'}
+                  </div>
+
+                  {/* Grid compatto per le proprietà */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                    gap: '1rem',
+                    maxHeight: '600px',
+                    overflowY: 'auto'
+                  }}>
+                    {chatProperties.map(property => (
+                      <PropertyCard
+                        key={property.id}
+                        property={property}
+                        onSelect={setSelectedProperty}
+                        isFavorite={favorites.has(property.id)}
+                        onToggleFavorite={toggleFavorite}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Loading indicator */}
               {aiLoading && (

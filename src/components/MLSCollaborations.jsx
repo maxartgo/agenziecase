@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * MLS Collaborations - Gestisci le tue collaborazioni MLS
@@ -18,7 +20,7 @@ const MLSCollaborations = ({ token }) => {
       setLoading(true);
 
       // Carica richieste ricevute
-      const incomingResponse = await fetch('http://localhost:3001/api/mls/collaborations/incoming', {
+      const incomingResponse = await fetch('${API_BASE_URL}/api/mls/collaborations/incoming', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -29,7 +31,7 @@ const MLSCollaborations = ({ token }) => {
       }
 
       // Carica le mie richieste
-      const myResponse = await fetch('http://localhost:3001/api/mls/collaborations/my-requests', {
+      const myResponse = await fetch('${API_BASE_URL}/api/mls/collaborations/my-requests', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -50,7 +52,7 @@ const MLSCollaborations = ({ token }) => {
     if (!confirm('Vuoi approvare questa richiesta di collaborazione?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/mls/collaborations/${collaborationId}/approve`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/collaborations/${collaborationId}/approve`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -74,7 +76,7 @@ const MLSCollaborations = ({ token }) => {
     if (!confirm('Vuoi rifiutare questa richiesta di collaborazione?')) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/api/mls/collaborations/${collaborationId}/reject`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/collaborations/${collaborationId}/reject`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`

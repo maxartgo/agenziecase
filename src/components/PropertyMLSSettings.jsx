@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Modal per gestire le impostazioni MLS di una proprietà esistente
@@ -51,7 +53,7 @@ const PropertyMLSSettings = ({ isOpen, onClose, property, token, onUpdate }) => 
     setSuccess('');
 
     try {
-      const response = await fetch(`http://localhost:3001/api/properties/${property.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/properties/${property.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Componente per gestire le transazioni MLS completate
@@ -29,7 +31,7 @@ const MLSTransactions = ({ token }) => {
   const loadTransactions = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/mls/transactions${filterStatus !== 'all' ? `?status=${filterStatus}` : ''}`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/transactions${filterStatus !== 'all' ? `?status=${filterStatus}` : ''}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -46,7 +48,7 @@ const MLSTransactions = ({ token }) => {
 
   const loadActiveCollaborations = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/mls/collaborations/active', {
+      const response = await fetch('${API_BASE_URL}/api/mls/collaborations/active', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -63,7 +65,7 @@ const MLSTransactions = ({ token }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/mls/transactions', {
+      const response = await fetch('${API_BASE_URL}/api/mls/transactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ const MLSTransactions = ({ token }) => {
 
   const handleMarkAsPaid = async (transactionId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/mls/transactions/${transactionId}/mark-paid`, {
+      const response = await fetch(`${API_BASE_URL}/api/mls/transactions/${transactionId}/mark-paid`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Campanella Notifiche con dropdown
@@ -39,7 +41,7 @@ const NotificationBell = ({ token, onNotificationClick }) => {
 
   const loadUnreadCount = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/notifications/unread/count', {
+      const response = await fetch('${API_BASE_URL}/api/notifications/unread/count', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -54,7 +56,7 @@ const NotificationBell = ({ token, onNotificationClick }) => {
   const loadNotifications = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/notifications?limit=5', {
+      const response = await fetch('${API_BASE_URL}/api/notifications?limit=5', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -70,7 +72,7 @@ const NotificationBell = ({ token, onNotificationClick }) => {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/notifications/${notificationId}/read`, {
+      const response = await fetch(`${API_BASE_URL}/api/notifications/${notificationId}/read`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });

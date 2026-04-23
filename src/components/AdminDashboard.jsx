@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 import AdminVirtualTourManager from './AdminVirtualTourManager';
 import AdminCRMManager from './AdminCRMManager';
 import AdminPartnersManager from './AdminPartnersManager';
 import AdminPropertiesManager from './AdminPropertiesManager';
 import AdminCRMSubscriptionsManager from './AdminCRMSubscriptionsManager';
 import AdminSupportTicketsManager from './AdminSupportTicketsManager';
+import AdminProfileManager from './AdminProfileManager';
+import AdminCouponsManager from './AdminCouponsManager';
 
 /**
  * Dashboard Admin Completa
@@ -16,7 +20,20 @@ const AdminDashboard = ({ token, onLogout }) => {
   const [partners, setPartners] = useState([]);
   const [properties, setProperties] = useState([]);
   const [vtRequests, setVtRequests] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboardData();
+    loadUserData();
+  }, []);
+
+  const loadUserData = () => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  };
 
   useEffect(() => {
     loadDashboardData();
@@ -27,7 +44,7 @@ const AdminDashboard = ({ token, onLogout }) => {
       setLoading(true);
 
       // Carica statistiche generali
-      const statsResponse = await fetch('http://localhost:3001/api/properties/stats', {
+      const statsResponse = await fetch('${API_BASE_URL}/api/properties/stats', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const statsData = await statsResponse.json();
@@ -36,13 +53,13 @@ const AdminDashboard = ({ token, onLogout }) => {
       }
 
       // Carica partners
-      const partnersResponse = await fetch('http://localhost:3001/api/partners', {
+      const partnersResponse = await fetch('${API_BASE_URL}/api/partners', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       // Note: Need to create this endpoint or fetch from database
 
       // Carica properties
-      const propsResponse = await fetch('http://localhost:3001/api/properties?limit=10', {
+      const propsResponse = await fetch('${API_BASE_URL}/api/properties?limit=10', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const propsData = await propsResponse.json();
@@ -51,7 +68,7 @@ const AdminDashboard = ({ token, onLogout }) => {
       }
 
       // Carica richieste VT pending
-      const vtResponse = await fetch('http://localhost:3001/api/virtual-tour-requests/admin/pending', {
+      const vtResponse = await fetch('${API_BASE_URL}/api/virtual-tour-requests/admin/pending', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const vtData = await vtResponse.json();
@@ -213,6 +230,8 @@ const AdminDashboard = ({ token, onLogout }) => {
     { id: 'partners', label: '🤝 Partners', icon: '🤝' },
     { id: 'crm', label: '📇 CRM', icon: '📇' },
     { id: 'subscriptions', label: '💳 Abbonamenti CRM', icon: '💳' },
+    { id: 'coupons', label: '🎟️ Coupon Sconto', icon: '🎟️' },
+    { id: 'profile', label: '👤 Profilo', icon: '👤' },
     { id: 'support', label: '🎫 Ticket Supporto', icon: '🎫' }
   ];
 
@@ -457,6 +476,14 @@ const AdminDashboard = ({ token, onLogout }) => {
         )}
 
         {/* SUPPORT TICKETS TAB */}
+        {activeTab === 'coupons' && (
+          <AdminCouponsManager token={token} />
+        )}
+
+        {activeTab === 'profile' && (
+          <AdminProfileManager token={token} user={user} />
+        )}
+
         {activeTab === 'support' && (
           <AdminSupportTicketsManager />
         )}

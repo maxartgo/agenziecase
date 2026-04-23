@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 /**
  * Modal per il reset della password (per agenti al primo accesso)
@@ -17,7 +19,7 @@ const ResetPasswordModal = ({ isOpen, onClose, onSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/request-password-reset', {
+      const response = await fetch('${API_BASE_URL}/api/auth/request-password-reset', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -58,7 +60,7 @@ const ResetPasswordModal = ({ isOpen, onClose, onSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/reset-password', {
+      const response = await fetch('${API_BASE_URL}/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

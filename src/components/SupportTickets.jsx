@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/api';
+
 
 const SupportTickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -24,7 +26,7 @@ const SupportTickets = () => {
   const loadTickets = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/api/support-tickets', {
+      const response = await fetch('${API_BASE_URL}/api/support-tickets', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -43,7 +45,7 @@ const SupportTickets = () => {
 
   const loadTicketDetails = async (ticketId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${ticketId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${ticketId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -63,7 +65,7 @@ const SupportTickets = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/support-tickets', {
+      const response = await fetch('${API_BASE_URL}/api/support-tickets', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -96,7 +98,7 @@ const SupportTickets = () => {
 
     try {
       setSendingReply(true);
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${selectedTicket.id}/responses`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${selectedTicket.id}/responses`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -120,7 +122,7 @@ const SupportTickets = () => {
 
   const updateTicketStatus = async (ticketId, status) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/support-tickets/${ticketId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/support-tickets/${ticketId}/status`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
