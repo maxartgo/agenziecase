@@ -83,8 +83,8 @@ services:
   # Frontend
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: agenziecase-frontend
     restart: unless-stopped
     ports:
