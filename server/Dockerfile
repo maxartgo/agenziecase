@@ -10,7 +10,7 @@ RUN apk add --no-cache postgresql-client
 COPY package*.json ./
 
 # Install all dependencies (including devDependencies for potential migration needs)
-RUN npm ci --include=dev
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
