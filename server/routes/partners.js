@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
@@ -18,7 +19,14 @@ const __dirname = path.dirname(__filename);
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Crea directory uploads/partners se non esiste
-    const uploadPath = path.join(__dirname, '../../uploads/partners');
+    const uploadPath = path.join(process.cwd(), 'uploads', 'partners');
+    try {
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+    } catch (err) {
+      console.error('❌ Errore creazione directory uploads/partners:', err);
+    }
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
