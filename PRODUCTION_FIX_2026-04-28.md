@@ -72,4 +72,14 @@
 
 ---
 
+### 6. Fix Registrazione Partner (Upload Documenti)
+- **Problema:** Multer usava `__dirname + ../../uploads/partners` che in Docker risolveva a `/uploads/partners` (inesistente)
+- **Fix:**
+  - Cambiato in `path.join(process.cwd(), 'uploads', 'partners')` → `/app/uploads/partners`
+  - Aggiunto `fs.mkdirSync(..., { recursive: true })` per creazione directory on-demand
+  - Aggiunto volume `./uploads:/app/uploads` nel `docker-compose.yml`
+- Test: directory verificata nel container, upload funzionante
+
+---
+
 *Ultimo aggiornamento: 28 Aprile 2026*
