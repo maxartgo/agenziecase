@@ -4,6 +4,10 @@ server/.env
 .env.local
 .env.production  # Contains production credentials - never commit this file
 *.env
+.env.backup.*
+
+# Docker Compose override (development only - do NOT use in production)
+docker-compose.override.yml
 
 # Files with potential credentials (SECURITY RISK)
 **/test-email.js
