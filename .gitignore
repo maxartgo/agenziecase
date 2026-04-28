@@ -1,4 +1,5 @@
 node_modules
+dist/
 # Environment files (SECURITY: Never commit credentials)
 server/.env
 .env.local
