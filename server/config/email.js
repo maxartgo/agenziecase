@@ -112,6 +112,41 @@ const emailTemplates = {
       <br>
       <p>Data: ${new Date().toLocaleString('it-IT')}</p>
     </div>
+  `,
+
+  partnerRegistration: (data) => `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h1 style="color: #d4af37;">🏢 Benvenuto Partner AgenzieCase!</h1>
+      <p>Ciao <strong>${data.companyName}</strong>,</p>
+      <p>La tua registrazione come partner su <strong>AgenzieCase</strong> è stata completata con successo!</p>
+      <div style="background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p>✅ Account attivato</p>
+        <p>✅ Profilo partner creato</p>
+        <p>✅ Accesso alla dashboard CRM</p>
+      </div>
+      <p>Puoi accedere subito alla tua area riservata:</p>
+      <p><a href="${process.env.FRONTEND_URL || 'https://agenziecase.com'}/login" style="background: #d4af37; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accedi al Partner Dashboard</a></p>
+      <br>
+      <p>Se hai domande, contattaci:</p>
+      <p>📧 Email: info@agenziecase.com</p>
+      <br>
+      <p>Cordiali saluti,<br><strong>Il team di AgenzieCase</strong></p>
+    </div>
+  `,
+
+  partnerStatusChange: (data) => `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h1 style="color: #3498db;">📢 Aggiornamento Stato Account</h1>
+      <p>Ciao <strong>${data.companyName}</strong>,</p>
+      <p>Lo stato del tuo account partner su <strong>AgenzieCase</strong> è stato aggiornato.</p>
+      <div style="background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p><strong>Nuovo stato:</strong> <span style="color: ${data.status === 'active' ? '#27ae60' : '#e74c3c'}; text-transform: uppercase;">${data.status}</span></p>
+      </div>
+      <p>Se hai domande, contattaci:</p>
+      <p>📧 Email: info@agenziecase.com</p>
+      <br>
+      <p>Cordiali saluti,<br><strong>Il team di AgenzieCase</strong></p>
+    </div>
   `
 };
 

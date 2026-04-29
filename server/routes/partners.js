@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import Partner from '../models/Partner.js';
 import { User } from '../models/index.js';
 import { authenticateToken } from '../middleware/auth.js';
+import { sendEmail, emailTemplates } from '../config/email.js';
 
 const router = express.Router();
 
@@ -176,11 +177,23 @@ router.post('/register', upload.fields([
 
     console.log('✅ Partner registrato con successo:', newPartner.id);
 
-    // TODO: Invia email di conferma registrazione
-    // sendConfirmationEmail(email, companyName);
+    // Invia email di conferma registrazione (non bloccante)
+    try {
+      await sendEmail({
+        to: newPartner.email,
+        subject: '🏢 Benvenuto Partner AgenzieCase!',
+        html: emailTemplates.partnerRegistration({
+          companyName: newPartner.companyName
+        }),
+        text: `Benvenuto ${newPartner.companyName}! La tua registrazione partner su AgenzieCase è stata completata con successo.`
+      });
+      console.log('✅ Email di conferma inviata a:', newPartner.email);
+    } catch (emailError) {
+      console.error('❌ Errore invio email conferma:', emailError.message);
+    }
 
     res.status(201).json({
-      message: 'Registrazione completata con successo! Riceverai una email di conferma quando la tua richiesta sarà approvata.',
+      message: 'Registrazione completata con successo! Ti abbiamo inviato una email di conferma.',
       partner: {
         id: newPartner.id,
         companyName: newPartner.companyName,
@@ -339,11 +352,24 @@ router.patch('/:id/status', async (req, res) => {
 
     console.log(`✅ Partner ${partner.id} status aggiornato: ${status}`);
 
-    // TODO: Invia email notifica cambio status
-    // sendStatusChangeEmail(partner.email, status);
+    // Invia email notifica cambio status (non bloccante)
+    try {
+      await sendEmail({
+        to: partner.email,
+        subject: '📢 Aggiornamento Stato Account Partner',
+        html: emailTemplates.partnerStatusChange({
+          companyName: partner.companyName,
+          status
+        }),
+        text: `Ciao ${partner.companyName}, lo stato del tuo account è stato aggiornato a: ${status}.`
+      });
+      console.log('✅ Email notifica status inviata a:', partner.email);
+    } catch (emailError) {
+      console.error('❌ Errore invio email status:', emailError.message);
+    }
 
     res.json({
-      message: 'Status aggiornato con successo',
+      message: 'Status aggiornato con successo. Notifica email inviata al partner.',
       partner
     });
 
