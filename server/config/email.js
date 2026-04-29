@@ -2,7 +2,7 @@
 import nodemailer from 'nodemailer';
 
 const createEmailTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'ssl0.ovh.net',
     port: parseInt(process.env.SMTP_PORT) || 465,
     secure: process.env.SMTP_SECURE !== 'false', // true for 465, false for 587
