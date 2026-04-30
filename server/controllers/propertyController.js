@@ -175,6 +175,23 @@ export const createProperty = async (req, res) => {
   try {
     const propertyData = req.body;
 
+    // Controllo abbonamento CRM per i partner
+    if (req.user && req.user.role === 'partner') {
+      const partner = await Partner.findOne({ where: { userId: req.user.id } });
+      if (!partner || !partner.crmSubscriptionActive) {
+        return res.status(403).json({
+          success: false,
+          error: 'Abbonamento CRM non attivo. Attiva un abbonamento per pubblicare annunci.'
+        });
+      }
+      if (partner.crmSubscriptionEnd && new Date(partner.crmSubscriptionEnd) < new Date()) {
+        return res.status(403).json({
+          success: false,
+          error: 'Abbonamento CRM scaduto. Rinnova il tuo abbonamento per continuare.'
+        });
+      }
+    }
+
     const newProperty = await Property.create(propertyData);
 
     // Invalidate cache

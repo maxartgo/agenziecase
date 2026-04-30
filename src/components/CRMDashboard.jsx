@@ -698,31 +698,45 @@ const CRMDashboard = ({ user, token, onLogout }) => {
                 </div>
               )}
 
-              <button
-                onClick={() => setIsAgentModalOpen(true)}
-                disabled={crmSubscription && crmSubscription.active && agents.length >= crmSubscription.teamSize - 1}
-                style={{
-                  ...styles.addButton,
-                  ...(crmSubscription && crmSubscription.active && agents.length >= crmSubscription.teamSize - 1 ? {
-                    opacity: 0.5,
-                    cursor: 'not-allowed'
-                  } : {})
-                }}
-                onMouseOver={(e) => {
-                  if (!(crmSubscription && crmSubscription.active && agents.length >= crmSubscription.teamSize - 1)) {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
-                  }
-                }}
-                onMouseOut={(e) => {
-                  if (!(crmSubscription && crmSubscription.active && agents.length >= crmSubscription.teamSize - 1)) {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.3)';
-                  }
-                }}
-              >
-                + Aggiungi Nuovo Agente
-              </button>
+              {crmSubscription && crmSubscription.active ? (
+                <button
+                  onClick={() => setIsAgentModalOpen(true)}
+                  disabled={agents.length >= crmSubscription.teamSize - 1}
+                  style={{
+                    ...styles.addButton,
+                    ...(agents.length >= crmSubscription.teamSize - 1 ? {
+                      opacity: 0.5,
+                      cursor: 'not-allowed'
+                    } : {})
+                  }}
+                  onMouseOver={(e) => {
+                    if (!(agents.length >= crmSubscription.teamSize - 1)) {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (!(agents.length >= crmSubscription.teamSize - 1)) {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.3)';
+                    }
+                  }}
+                >
+                  + Aggiungi Nuovo Agente
+                </button>
+              ) : (
+                <div style={{
+                  background: 'rgba(231, 76, 60, 0.1)',
+                  border: '1px solid rgba(231, 76, 60, 0.3)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  marginBottom: '1.5rem',
+                  color: '#e74c3c',
+                  fontSize: '0.95rem'
+                }}>
+                  🔒 Abbonamento CRM richiesto. <button onClick={() => setShowSubscriptionPlans(true)} style={{background: 'transparent', border: 'none', color: '#d4af37', cursor: 'pointer', textDecoration: 'underline', fontSize: 'inherit'}}>Attiva ora</button>
+                </div>
+              )}
 
               {agents.length === 0 ? (
                 <div style={styles.emptyState}>
@@ -775,20 +789,33 @@ const CRMDashboard = ({ user, token, onLogout }) => {
             <div style={styles.contentCard}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <h2 style={styles.cardTitle}>🏠 Annunci Immobiliari</h2>
-                <button
-                  onClick={() => setIsPropertyModalOpen(true)}
-                  style={styles.addButton}
-                  onMouseOver={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.3)';
-                  }}
-                >
-                  + Nuovo Annuncio
-                </button>
+                {crmSubscription && crmSubscription.active ? (
+                  <button
+                    onClick={() => setIsPropertyModalOpen(true)}
+                    style={styles.addButton}
+                    onMouseOver={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.3)';
+                    }}
+                  >
+                    + Nuovo Annuncio
+                  </button>
+                ) : (
+                  <div style={{
+                    background: 'rgba(231, 76, 60, 0.1)',
+                    border: '1px solid rgba(231, 76, 60, 0.3)',
+                    borderRadius: '12px',
+                    padding: '0.75rem 1rem',
+                    color: '#e74c3c',
+                    fontSize: '0.9rem'
+                  }}>
+                    🔒 Abbonamento CRM richiesto per pubblicare annunci
+                  </div>
+                )}
               </div>
 
               <PropertyList
