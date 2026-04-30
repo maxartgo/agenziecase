@@ -72,6 +72,41 @@
 
 ---
 
+## Fix Email SMTP OVH (30 Aprile 2026)
+
+### Problema
+Le email di conferma registrazione partner non venivano inviate. Test SMTP dava `ETIMEDOUT` sulla porta 465.
+
+### Cause Multiple
+1. **Porta 465 bloccata** dal firewall del server Hetzner (`nc -z` dava FAIL)
+2. **Porta 587 aperta** ma autenticazione falliva (`535 5.7.1 Authentication failed`)
+3. **Variabili SMTP non passate al container** — mancavano in `docker-compose.yml`
+4. **Password errata nel container** — `.env` aggiornato ma container non ricreato (`restart` ≠ `up -d`)
+5. **Metodo auth errato** — OVH richiede `AUTH LOGIN`, nodemailer usa `PLAIN` di default
+
+### Fix Applicati
+- `docker-compose.yml`: aggiunte `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD` al servizio `backend`
+- `server/config/email.js`: aggiunto `method: 'LOGIN'` nell'oggetto `auth` di nodemailer
+- `.env` server: `SMTP_PORT=587`, `SMTP_SECURE=false`
+- Container backend **ricreato** con `docker compose up -d` per caricare la password corretta
+
+### Configurazione Finale OVH
+```
+SMTP_HOST=ssl0.ovh.net
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=info@agenziecase.com
+SMTP_PASSWORD=[REDACTED_PASSWORD]
+```
+
+### Verifica
+```
+✅ VERIFY_OK: User "info@agenziecase.com" authenticated
+✅ Email sent: <a786f24c-d3d0-bf2b-92c3-b742af64d99f@agenziecase.com>
+```
+
+---
+
 ## Stato Post-Intervento
 
 ```
@@ -87,6 +122,7 @@
 - **Security headers:** attivi
 - **Bot scans:** 404
 - **Partner upload:** funzionante
+- **Email SMTP OVH:** funzionante (porta 587, auth LOGIN)
 
 ---
 
@@ -96,6 +132,7 @@
 - `frontend/Dockerfile`
 - `frontend/nginx.conf`
 - `server/routes/partners.js`
+- `server/config/email.js`
 - `server/package.json`
 - `server/.eslintrc.json`
 - `.gitignore`
@@ -108,4 +145,4 @@
 
 ---
 
-*Ultimo aggiornamento: 28 Aprile 2026, 20:50*
+*Ultimo aggiornamento: 30 Aprile 2026, 08:45*
