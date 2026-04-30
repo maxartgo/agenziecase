@@ -145,6 +145,16 @@ const AdminPartnersManager = ({ token }) => {
     }
   };
 
+  const handleViewDetails = (partner) => {
+    setSelectedPartner(partner);
+    setShowDetailsModal(true);
+  };
+
+  const closeDetailsModal = () => {
+    setShowDetailsModal(false);
+    setSelectedPartner(null);
+  };
+
   const styles = {
     container: {
       width: '100%'
