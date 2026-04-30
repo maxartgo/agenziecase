@@ -22,9 +22,9 @@ import crmSubscriptionsRoutes from './routes/crmSubscriptions.js';
 import adminCrmSubscriptionsRoutes from './routes/admin/crmSubscriptions.js';
 
 // CRM Routes
-// import clientsRoutes from './routes/crm/clients.js';  // Temporarily disabled
+import clientsRoutes from './routes/crm/clients.js';
 import appointmentsRoutes from './routes/crm/appointments.js';
-// import dealsRoutes from './routes/crm/deals.js';  // Temporarily disabled
+import dealsRoutes from './routes/crm/deals.js';
 import activitiesRoutes from './routes/crm/activities.js';
 import documentsRoutes from './routes/crm/documents.js';
 
@@ -290,9 +290,9 @@ app.use('/api/crm-subscriptions', crmSubscriptionsRoutes);
 app.use('/api/admin/crm-subscriptions', adminCrmSubscriptionsRoutes);
 
 // CRM API Routes (temporarily disabled for testing)
-// app.use('/api/crm/clients', clientsRoutes);
+app.use('/api/crm/clients', clientsRoutes);
 app.use('/api/crm/appointments', appointmentsRoutes);
-// app.use('/api/crm/deals', dealsRoutes);
+app.use('/api/crm/deals', dealsRoutes);
 app.use('/api/crm/activities', activitiesRoutes);
 app.use('/api/crm/documents', documentsRoutes);
 

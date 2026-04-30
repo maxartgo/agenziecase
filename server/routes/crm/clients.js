@@ -10,7 +10,6 @@ const router = express.Router();
 // GET /api/crm/clients - Lista clienti
 // ============================================
 router.get('/', cacheMiddleware(cacheTTL.MEDIUM), async (req, res) => {
-router.get('/', async (req, res) => {
   try {
     const {
       partnerId,
