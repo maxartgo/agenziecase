@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models/index.js';
+import { User, Partner } from '../models/index.js';
 
 // Middleware per verificare il token JWT
 export const authenticateToken = async (req, res, next) => {
@@ -28,13 +28,23 @@ export const authenticateToken = async (req, res, next) => {
       });
     }
 
+    // Carica partnerId se l'utente è un partner
+    let partnerId = null;
+    if (user.role === 'partner') {
+      const partner = await Partner.findOne({ where: { userId: user.id } });
+      if (partner) {
+        partnerId = partner.id;
+      }
+    }
+
     // Aggiungi l'utente alla richiesta
     req.user = {
       id: user.id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role
+      role: user.role,
+      partnerId
     };
 
     next();
@@ -91,12 +101,20 @@ export const optionalAuth = async (req, res, next) => {
       const user = await User.findByPk(decoded.userId);
 
       if (user) {
+        let partnerId = null;
+        if (user.role === 'partner') {
+          const partner = await Partner.findOne({ where: { userId: user.id } });
+          if (partner) {
+            partnerId = partner.id;
+          }
+        }
         req.user = {
           id: user.id,
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          role: user.role
+          role: user.role,
+          partnerId
         };
       }
     }
