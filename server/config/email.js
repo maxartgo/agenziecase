@@ -8,7 +8,8 @@ const createEmailTransporter = () => {
     secure: process.env.SMTP_SECURE !== 'false', // true for 465, false for 587
     auth: {
       user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD
+      pass: process.env.SMTP_PASSWORD,
+      method: 'LOGIN'
     },
     tls: {
       // Do not fail on invalid certs
