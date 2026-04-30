@@ -4,6 +4,7 @@ import PropertyCreateModal from './PropertyCreateModal';
 import PropertyList from './PropertyList';
 import VirtualTourPacks from './VirtualTourPacks';
 import CRMSubscriptionPlans from './CRMSubscriptionPlans';
+import CRMDataManager from './CRMDataManager';
 import SupportTickets from './SupportTickets';
 import MLSBrowser from './MLSBrowser';
 import MLSCollaborations from './MLSCollaborations';
@@ -875,14 +876,111 @@ const CRMDashboard = ({ user, token, onLogout }) => {
             />
           )}
 
+          {/* CRM Sections */}
+          {activeSection === 'clients' && (
+            <CRMDataManager
+              endpoint="/api/crm/clients"
+              title="Clienti"
+              token={token}
+              partnerId={partnerData?.id}
+              columns={[
+                { key: 'firstName', label: 'Nome' },
+                { key: 'lastName', label: 'Cognome' },
+                { key: 'email', label: 'Email' },
+                { key: 'phone', label: 'Telefono' },
+                { key: 'status', label: 'Stato' },
+                { key: 'type', label: 'Tipo' }
+              ]}
+              formFields={[
+                { name: 'firstName', label: 'Nome', type: 'text', required: true },
+                { name: 'lastName', label: 'Cognome', type: 'text', required: true },
+                { name: 'email', label: 'Email', type: 'email', required: true },
+                { name: 'phone', label: 'Telefono', type: 'tel', required: true },
+                { name: 'type', label: 'Tipo', type: 'select', options: [{ value: 'buyer', label: 'Acquirente' }, { value: 'seller', label: 'Venditore' }, { value: 'renter', label: 'Inquilino' }, { value: 'landlord', label: 'Proprietario' }, { value: 'both', label: 'Entrambi' }] },
+                { name: 'status', label: 'Stato', type: 'select', options: [{ value: 'active', label: 'Attivo' }, { value: 'contacted', label: 'Contattato' }, { value: 'converted', label: 'Convertito' }, { value: 'inactive', label: 'Inattivo' }] },
+                { name: 'budgetMin', label: 'Budget Min', type: 'number' },
+                { name: 'budgetMax', label: 'Budget Max', type: 'number' },
+                { name: 'notes', label: 'Note', type: 'textarea' }
+              ]}
+            />
+          )}
+          {activeSection === 'appointments' && (
+            <CRMDataManager
+              endpoint="/api/crm/appointments"
+              title="Appuntamenti"
+              token={token}
+              partnerId={partnerData?.id}
+              columns={[
+                { key: 'title', label: 'Titolo' },
+                { key: 'date', label: 'Data', type: 'date' },
+                { key: 'status', label: 'Stato' },
+                { key: 'propertyId', label: 'ID Immobile' },
+                { key: 'clientId', label: 'ID Cliente' }
+              ]}
+              formFields={[
+                { name: 'title', label: 'Titolo', type: 'text', required: true },
+                { name: 'date', label: 'Data e Ora', type: 'datetime-local', required: true },
+                { name: 'type', label: 'Tipo', type: 'select', options: [{ value: 'viewing', label: 'Visita' }, { value: 'meeting', label: 'Incontro' }, { value: 'call', label: 'Telefonata' }, { value: 'valuation', label: 'Valutazione' }] },
+                { name: 'status', label: 'Stato', type: 'select', options: [{ value: 'scheduled', label: 'Pianificato' }, { value: 'confirmed', label: 'Confermato' }, { value: 'completed', label: 'Completato' }, { value: 'cancelled', label: 'Annullato' }] },
+                { name: 'propertyId', label: 'ID Immobile', type: 'number' },
+                { name: 'clientId', label: 'ID Cliente', type: 'number' },
+                { name: 'notes', label: 'Note', type: 'textarea' }
+              ]}
+            />
+          )}
+          {activeSection === 'deals' && (
+            <CRMDataManager
+              endpoint="/api/crm/deals"
+              title="Trattative"
+              token={token}
+              partnerId={partnerData?.id}
+              columns={[
+                { key: 'title', label: 'Titolo' },
+                { key: 'value', label: 'Valore', type: 'currency' },
+                { key: 'status', label: 'Stato' },
+                { key: 'stage', label: 'Fase' },
+                { key: 'clientId', label: 'ID Cliente' }
+              ]}
+              formFields={[
+                { name: 'title', label: 'Titolo', type: 'text', required: true },
+                { name: 'value', label: 'Valore', type: 'number' },
+                { name: 'status', label: 'Stato', type: 'select', options: [{ value: 'open', label: 'Aperta' }, { value: 'won', label: 'Vinta' }, { value: 'lost', label: 'Persa' }, { value: 'on_hold', label: 'In Attesa' }] },
+                { name: 'stage', label: 'Fase', type: 'select', options: [{ value: 'lead', label: 'Lead' }, { value: 'contact', label: 'Contatto' }, { value: 'visit', label: 'Visita' }, { value: 'negotiation', label: 'Trattativa' }, { value: 'closing', label: 'Chiusura' }] },
+                { name: 'clientId', label: 'ID Cliente', type: 'number' },
+                { name: 'propertyId', label: 'ID Immobile', type: 'number' },
+                { name: 'notes', label: 'Note', type: 'textarea' }
+              ]}
+            />
+          )}
+          {activeSection === 'activities' && (
+            <CRMDataManager
+              endpoint="/api/crm/activities"
+              title="Attività"
+              token={token}
+              partnerId={partnerData?.id}
+              columns={[
+                { key: 'type', label: 'Tipo' },
+                { key: 'description', label: 'Descrizione' },
+                { key: 'dueDate', label: 'Scadenza', type: 'date' },
+                { key: 'status', label: 'Stato' },
+                { key: 'clientId', label: 'ID Cliente' }
+              ]}
+              formFields={[
+                { name: 'type', label: 'Tipo', type: 'select', options: [{ value: 'call', label: 'Telefonata' }, { value: 'email', label: 'Email' }, { value: 'visit', label: 'Visita' }, { value: 'meeting', label: 'Incontro' }, { value: 'task', label: 'Task' }, { value: 'note', label: 'Nota' }] },
+                { name: 'description', label: 'Descrizione', type: 'textarea', required: true },
+                { name: 'dueDate', label: 'Scadenza', type: 'datetime-local' },
+                { name: 'status', label: 'Stato', type: 'select', options: [{ value: 'pending', label: 'In Sospeso' }, { value: 'completed', label: 'Completata' }, { value: 'cancelled', label: 'Annullata' }] },
+                { name: 'clientId', label: 'ID Cliente', type: 'number' },
+                { name: 'dealId', label: 'ID Trattativa', type: 'number' },
+                { name: 'propertyId', label: 'ID Immobile', type: 'number' }
+              ]}
+            />
+          )}
+
           {/* Altre sezioni */}
-          {activeSection !== 'overview' && activeSection !== 'agents' && activeSection !== 'properties' && activeSection !== 'virtualtour' && activeSection !== 'support' && activeSection !== 'mls-network' && activeSection !== 'mls-collaborations' && activeSection !== 'mls-leads' && activeSection !== 'mls-transactions' && activeSection !== 'notifications' && (
+          {activeSection !== 'overview' && activeSection !== 'agents' && activeSection !== 'properties' && activeSection !== 'virtualtour' && activeSection !== 'support' && activeSection !== 'mls-network' && activeSection !== 'mls-collaborations' && activeSection !== 'mls-leads' && activeSection !== 'mls-transactions' && activeSection !== 'notifications' && activeSection !== 'clients' && activeSection !== 'appointments' && activeSection !== 'deals' && activeSection !== 'activities' && (
             <div style={styles.contentCard}>
               <h2 style={styles.cardTitle}>
-                {activeSection === 'clients' && '👥 Clienti'}
-                {activeSection === 'appointments' && '📅 Appuntamenti'}
-                {activeSection === 'deals' && '💼 Trattative'}
-                {activeSection === 'activities' && '📝 Attività'}
                 <span style={styles.comingSoon}>Coming Soon</span>
               </h2>
               <div style={styles.emptyState}>

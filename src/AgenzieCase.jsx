@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import PartnerRegistrationModal from './components/PartnerRegistrationModal';
 import LoginModal from './components/LoginModal';
+import ChatVisitConfirmation from './components/ChatVisitConfirmation';
 import { useVoice } from './hooks/useVoice';
 import MatrixRain from './components/MatrixRain';
 import { API_BASE_URL } from './config/api';
@@ -1090,6 +1091,8 @@ const AgenzieCase = () => {
   const [chatHistory, setChatHistory] = useState([]); // Cronologia messaggi [{role: 'user'|'assistant', content: '...'}]
   const [showChatBox, setShowChatBox] = useState(false); // Chat box persistente
   const [chatProperties, setChatProperties] = useState([]); // Proprietà restituite dalla chat
+  const [selectedPropertyForVisit, setSelectedPropertyForVisit] = useState(null);
+  const [showVisitForm, setShowVisitForm] = useState(false);
 
   // Stati per Modal
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
@@ -1711,16 +1714,44 @@ const AgenzieCase = () => {
                     overflowY: 'auto'
                   }}>
                     {chatProperties.map(property => (
-                      <PropertyCard
-                        key={property.id}
-                        property={property}
-                        onSelect={setSelectedProperty}
-                        isFavorite={favorites.has(property.id)}
-                        onToggleFavorite={toggleFavorite}
-                      />
+                      <div key={property.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <PropertyCard
+                          property={property}
+                          onSelect={setSelectedProperty}
+                          isFavorite={favorites.has(property.id)}
+                          onToggleFavorite={toggleFavorite}
+                        />
+                        <button
+                          onClick={() => { setSelectedPropertyForVisit(property); setShowVisitForm(true); }}
+                          style={{
+                            padding: '0.5rem', background: 'linear-gradient(135deg,#16a085,#138d75)',
+                            border: 'none', borderRadius: '8px', color: '#fff', fontWeight: '600',
+                            fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center',
+                            justifyContent: 'center', gap: '0.4rem'
+                          }}
+                        >
+                          📅 Fissa Visita
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
+              )}
+
+              {/* Form fissa visita */}
+              {showVisitForm && selectedPropertyForVisit && (
+                <ChatVisitConfirmation
+                  property={selectedPropertyForVisit}
+                  onClose={() => setShowVisitForm(false)}
+                  onSuccess={(data) => {
+                    setShowVisitForm(false);
+                    setChatHistory(prev => [...prev, {
+                      role: 'assistant',
+                      content: `✅ Visita prenotata con successo! Ti contatteremo presto per confermare l'appuntamento per: ${selectedPropertyForVisit.title}.`
+                    }]);
+                    setSelectedPropertyForVisit(null);
+                  }}
+                />
               )}
 
               {/* Loading indicator */}
