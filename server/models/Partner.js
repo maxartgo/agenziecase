@@ -100,6 +100,55 @@ const Partner = sequelize.define('Partner', {
   approvedBy: {
     type: DataTypes.INTEGER,
     comment: 'ID admin che ha approvato'
+  },
+
+  // Abbonamento CRM
+  crmSubscriptionActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    comment: 'Abbonamento CRM attivo'
+  },
+  crmSubscriptionPlan: {
+    type: DataTypes.STRING(50),
+    defaultValue: 'none',
+    comment: 'Piano abbonamento: none, single, team_5, team_10, team_15_plus'
+  },
+  crmTeamSize: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+    comment: 'Numero persone team (1, 5, 10, 15-50)'
+  },
+  crmMonthlyPrice: {
+    type: DataTypes.DECIMAL(10, 2),
+    defaultValue: 0.00,
+    comment: 'Prezzo mensile in euro'
+  },
+  crmAnnualPrice: {
+    type: DataTypes.DECIMAL(10, 2),
+    defaultValue: 0.00,
+    comment: 'Prezzo annuale in euro'
+  },
+  crmSubscriptionStart: {
+    type: DataTypes.DATE,
+    comment: 'Data inizio abbonamento'
+  },
+  crmSubscriptionEnd: {
+    type: DataTypes.DATE,
+    comment: 'Data fine abbonamento'
+  },
+  crmPaymentType: {
+    type: DataTypes.STRING(50),
+    defaultValue: 'none',
+    comment: 'Tipo pagamento: none, monthly, annual'
+  },
+  crmLastPayment: {
+    type: DataTypes.DATE,
+    comment: 'Data ultimo pagamento'
+  },
+  crmAutoRenew: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+    comment: 'Rinnovo automatico'
   }
 }, {
   timestamps: true, // createdAt, updatedAt
