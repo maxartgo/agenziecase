@@ -21,7 +21,7 @@ const AdminPartnersManager = ({ token }) => {
       setLoading(true);
 
       // Load all partners
-      const response = await fetch('${API_BASE_URL}/api/partners', {
+      const response = await fetch(`${API_BASE_URL}/api/partners`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -421,9 +421,9 @@ const AdminPartnersManager = ({ token }) => {
               <tr key={partner.id}>
                 <td style={styles.td}>#{partner.id}</td>
                 <td style={styles.td}>
-                  <div style={{ fontWeight: '600' }}>{partner.agencyName}</div>
+                  <div style={{ fontWeight: '600' }}>{partner.companyName}</div>
                   <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)' }}>
-                    {partner.contactName}
+                    {partner.email}
                   </div>
                 </td>
                 <td style={styles.td}>{partner.email}</td>
