@@ -274,6 +274,16 @@ router.post('/create-appointment', async (req, res) => {
       });
     }
 
+    // Validazione GDPR
+    if (!req.body.privacyConsent) {
+      return res.status(400).json({
+        success: false,
+        error: 'Consenso privacy richiesto',
+        requiresConfirmation: true,
+        message: 'Per procedere è necessario accettare la privacy policy'
+      });
+    }
+
     // Trova o crea cliente
     let client = await Client.findOne({
       where: {
@@ -295,10 +305,13 @@ router.post('/create-appointment', async (req, res) => {
         phone: clientPhone,
         type: 'buyer',
         status: 'new',
-        source: 'website',
+        source: 'chat',
         priority: 'medium',
         partnerId,
-        agentId
+        agentId,
+        privacyConsent: true,
+        privacyConsentDate: new Date(),
+        privacyConsentSource: 'chat'
       });
 
       // Activity log creazione cliente
@@ -465,6 +478,16 @@ router.post('/create-lead', async (req, res) => {
       });
     }
 
+    // Validazione GDPR
+    if (!req.body.privacyConsent) {
+      return res.status(400).json({
+        success: false,
+        error: 'Consenso privacy richiesto',
+        requiresConfirmation: true,
+        message: 'Per procedere è necessario accettare la privacy policy'
+      });
+    }
+
     // Trova o crea cliente
     let client = await Client.findOne({
       where: {
@@ -485,7 +508,7 @@ router.post('/create-lead', async (req, res) => {
         phone: clientPhone,
         type,
         status: 'new',
-        source: 'website',
+        source: 'chat',
         priority: 'high', // Lead da AI = alta priorità
         budgetMin,
         budgetMax,
@@ -493,7 +516,10 @@ router.post('/create-lead', async (req, res) => {
         preferredLocations: location ? JSON.stringify([location]) : null,
         notes,
         partnerId,
-        agentId
+        agentId,
+        privacyConsent: true,
+        privacyConsentDate: new Date(),
+        privacyConsentSource: 'chat'
       });
     } else {
       // Aggiorna info esistenti

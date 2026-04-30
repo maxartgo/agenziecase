@@ -135,6 +135,22 @@ const Client = sequelize.define('Client', {
     type: DataTypes.INTEGER,
     allowNull: false,
     comment: 'ID agenzia proprietaria del cliente'
+  },
+
+  // GDPR - Consenso privacy
+  privacyConsent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    comment: 'Consenso GDPR per trattamento dati personali'
+  },
+  privacyConsentDate: {
+    type: DataTypes.DATE,
+    comment: 'Data del consenso privacy'
+  },
+  privacyConsentSource: {
+    type: DataTypes.ENUM('website', 'chat', 'email', 'phone', 'form'),
+    defaultValue: 'website',
+    comment: 'Fonte del consenso privacy'
   }
 }, {
   timestamps: true,
