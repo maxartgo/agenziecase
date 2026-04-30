@@ -11,6 +11,8 @@ const AdminPartnersManager = ({ token }) => {
   const [pendingPartners, setPendingPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('all'); // all, pending, approved
+  const [selectedPartner, setSelectedPartner] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     loadPartners();
@@ -477,14 +479,102 @@ const AdminPartnersManager = ({ token }) => {
                       Riattiva
                     </button>
                   )}
+                  <button
+                    onClick={() => handleViewDetails(partner)}
+                    style={{...styles.actionButton, background: '#3498db', color: '#fff'}}
+                  >
+                    Dettagli
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+
+      {/* Details Modal */}
+      {showDetailsModal && selectedPartner && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '2rem'
+        }} onClick={closeDetailsModal}>
+          <div style={{
+            background: '#1a1a1a',
+            borderRadius: '16px',
+            padding: '2rem',
+            maxWidth: '700px',
+            width: '100%',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
+              <h3 style={{color: '#fff', margin: 0, fontSize: '1.5rem'}}>🏢 {selectedPartner.companyName}</h3>
+              <button onClick={closeDetailsModal} style={{background: 'transparent', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer'}}>✕</button>
+            </div>
+
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem'}}>
+              <DetailRow label="ID" value={`#${selectedPartner.id}`} />
+              <DetailRow label="Status" value={selectedPartner.status} />
+              <DetailRow label="Ragione Sociale" value={selectedPartner.companyName} />
+              <DetailRow label="P.IVA" value={selectedPartner.vatNumber} />
+              <DetailRow label="Cod. Fiscale" value={selectedPartner.fiscalCode || '-'} />
+              <DetailRow label="Email" value={selectedPartner.email} />
+              <DetailRow label="Telefono" value={selectedPartner.phone} />
+              <DetailRow label="Sito Web" value={selectedPartner.website || '-'} />
+              <DetailRow label="Indirizzo" value={selectedPartner.address} />
+              <DetailRow label="Città" value={`${selectedPartner.city} (${selectedPartner.province || '-'}) ${selectedPartner.zipCode || ''}`} />
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <h4 style={{color: '#9b59b6', marginBottom: '0.75rem', fontSize: '1.1rem'}}>📄 Documenti</h4>
+              {selectedPartner.visuraCamerale ? (
+                <a href={selectedPartner.visuraCamerale} target="_blank" rel="noopener noreferrer" style={{color: '#3498db', display: 'block', marginBottom: '0.5rem'}}>
+                  📋 Visura Camerale →
+                </a>
+              ) : (
+                <p style={{color: 'rgba(255,255,255,0.5)', marginBottom: '0.5rem'}}>📋 Visura Camerale: non caricata</p>
+              )}
+              {selectedPartner.documentoIdentita ? (
+                <a href={selectedPartner.documentoIdentita} target="_blank" rel="noopener noreferrer" style={{color: '#3498db', display: 'block'}}>
+                  🆔 Documento Identità →
+                </a>
+              ) : (
+                <p style={{color: 'rgba(255,255,255,0.5)'}}>🆔 Documento Identità: non caricato</p>
+              )}
+            </div>
+
+            <div style={{marginBottom: '1.5rem'}}>
+              <h4 style={{color: '#9b59b6', marginBottom: '0.75rem', fontSize: '1.1rem'}}>📝 Termini</h4>
+              <DetailRow label="Termini accettati" value={selectedPartner.termsAccepted ? '✅ Sì' : '❌ No'} />
+              <DetailRow label="Privacy accettata" value={selectedPartner.privacyAccepted ? '✅ Sì' : '❌ No'} />
+              <DetailRow label="Data registrazione" value={formatDate(selectedPartner.createdAt)} />
+            </div>
+
+            {selectedPartner.internalNotes && (
+              <div>
+                <h4 style={{color: '#9b59b6', marginBottom: '0.75rem', fontSize: '1.1rem'}}>🗒️ Note Interne</h4>
+                <p style={{color: 'rgba(255,255,255,0.8)', background: '#2a2a2a', padding: '1rem', borderRadius: '8px'}}>{selectedPartner.internalNotes}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
+const DetailRow = ({ label, value }) => (
+  <div style={{marginBottom: '0.5rem'}}>
+    <div style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', marginBottom: '0.25rem'}}>{label}</div>
+    <div style={{fontSize: '0.95rem', color: '#fff', wordBreak: 'break-word'}}>{value}</div>
+  </div>
+);
 
 export default AdminPartnersManager;

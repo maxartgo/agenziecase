@@ -169,9 +169,9 @@ router.post('/register', upload.fields([
       phone,
       email,
       website: website || null,
-      businessCertificate: businessCertificatePath,
-      idDocument: idDocumentPath,
-      acceptedTerms: true,
+      visuraCamerale: businessCertificatePath,
+      documentoIdentita: idDocumentPath,
+      termsAccepted: true,
       status: 'active' // TEMPORANEAMENTE active - approvazione admin disabilitata
     });
 
