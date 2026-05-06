@@ -10,6 +10,7 @@ import { connectRedis as initRedis, disconnectRedis as closeRedis } from './conf
 import { performanceMiddleware, getPerformanceMetrics } from './middleware/performance.js';
 import { setupSecurity, customSecurityHeaders } from './middleware/security.js';
 import Property from './models/Property.js';
+import Partner from './models/Partner.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import partnerRoutes from './routes/partners.js';
@@ -98,7 +99,13 @@ Il tuo compito è aiutare gli utenti a:
 - Fornire stime di prezzo per zona
 - Aiutare a contattare gli agenti per visite e informazioni
 
-Hai accesso al database in tempo reale con tutti gli immobili disponibili.
+REGOLE ASSOLUTE:
+1. NON inventare mai nomi di persone, numeri di telefono, indirizzi email o dati di agenzie immobiliari.
+2. Se l'utente chiede di contattare un'agenzia, usa SOLO i dati delle agenzie elencate nel contesto qui sotto.
+3. Se non ci sono agenzie nel contesto per la città richiesta, di' chiaramente che non hai agenzie disponibili in quella zona e invita l'utente a usare il pulsante "Fissa Visita" sull'immobile di interesse.
+4. Non menzionare mai agenti, numeri o email che non compaiono esplicitamente nel contesto fornito.
+
+Hai accesso al database in tempo reale con tutti gli immobili e le agenzie partner disponibili.
 Quando un utente chiede disponibilità o cerca immobili, userai i dati forniti nel contesto.
 
 Rispondi sempre in italiano, in modo cordiale e professionale. Sii conciso ma utile.
@@ -118,7 +125,14 @@ app.post('/api/chat', async (req, res) => {
       limit: 50
     });
 
-    // Formatta le proprietà per il contesto AI
+    // Recupera le agenzie partner attive
+    const activePartners = await Partner.findAll({
+      where: { status: 'active' },
+      attributes: ['companyName', 'city', 'phone', 'email'],
+      limit: 20
+    });
+
+    // Formatta il contesto per l'AI
     let propertyContext = '';
     if (availableProperties.length > 0) {
       propertyContext = '\n\nIMMOBILI DISPONIBILI:\n';
@@ -131,6 +145,15 @@ app.post('/api/chat', async (req, res) => {
       });
     } else {
       propertyContext = '\n\nAl momento non ci sono immobili disponibili nel database.';
+    }
+
+    if (activePartners.length > 0) {
+      propertyContext += '\n\nAGENZIE PARTNER ATTIVE (usa SOLO queste):\n';
+      activePartners.forEach((partner, index) => {
+        propertyContext += `${index + 1}. ${partner.companyName} - ${partner.city || 'Italia'} - Tel: ${partner.phone || 'N/D'} - Email: ${partner.email || 'N/D'}\n`;
+      });
+    } else {
+      propertyContext += '\n\nAl momento non ci sono agenzie partner attive nel database.';
     }
 
     // Costruisci l'array di messaggi per Groq
