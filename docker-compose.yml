@@ -11,8 +11,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agenziecase_password}
       POSTGRES_DB: ${POSTGRES_DB:-agenziecase}
       PGDATA: /var/lib/postgresql/data/pgdata
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+    # Sicurezza: PostgreSQL NON esposto su Internet, accessibile solo dalla rete Docker interna
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
