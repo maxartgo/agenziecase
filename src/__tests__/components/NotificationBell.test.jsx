@@ -80,7 +80,7 @@ describe('NotificationBell Component', () => {
       // Wait for count to load
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          'http://localhost:3001/api/notifications/unread/count',
+          '/api/notifications/unread/count',
           expect.objectContaining({
             headers: expect.objectContaining({
               'Authorization': `Bearer ${mockToken}`
@@ -143,7 +143,7 @@ describe('NotificationBell Component', () => {
       // Should load notifications when dropdown opens
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
-          'http://localhost:3001/api/notifications?limit=5',
+          '/api/notifications?limit=5',
           expect.objectContaining({
             headers: expect.objectContaining({
               'Authorization': `Bearer ${mockToken}`
@@ -613,7 +613,7 @@ describe('NotificationBell Component', () => {
 });
 
 // Helper function to sequence multiple fetch calls
-function global.fetchSequence(responses) {
+function globalFetchSequence(responses) {
   responses.forEach((response, index) => {
     if (typeof response === 'number') {
       // Handle count response

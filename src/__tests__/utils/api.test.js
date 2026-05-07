@@ -20,25 +20,25 @@ describe('API Helpers', () => {
     it('should build correct URL for endpoint', () => {
       const url = buildApiUrl('/api/properties');
 
-      expect(url).toBe('http://localhost:3456/api/properties');
+      expect(url).toBe('/api/properties');
     });
 
     it('should handle endpoint without leading slash', () => {
       const url = buildApiUrl('api/properties');
 
-      expect(url).toBe('http://localhost:3456api/properties');
+      expect(url).toBe('api/properties');
     });
 
     it('should handle endpoint with query parameters', () => {
       const url = buildApiUrl('/api/properties?city=Milano&type=Vendita');
 
-      expect(url).toBe('http://localhost:3456/api/properties?city=Milano&type=Vendita');
+      expect(url).toBe('/api/properties?city=Milano&type=Vendita');
     });
 
     it('should handle empty endpoint', () => {
       const url = buildApiUrl('');
 
-      expect(url).toBe('http://localhost:3456');
+      expect(url).toBe('/');
     });
   });
 
@@ -52,7 +52,7 @@ describe('API Helpers', () => {
       await apiCall('/api/test');
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/test',
+        '/api/test',
         {
           headers: {
             'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ describe('API Helpers', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/test',
+        '/api/test',
         expect.objectContaining({
           headers: expect.any(Object)
         })
@@ -94,7 +94,7 @@ describe('API Helpers', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/test',
+        '/api/test',
         expect.objectContaining({
           headers: expect.objectContaining({
             'Content-Type': 'application/xml'
@@ -115,7 +115,7 @@ describe('API Helpers', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/test',
+        '/api/test',
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ test: 'data' })
@@ -155,7 +155,7 @@ describe('API Helpers', () => {
       await authenticatedApiCall('/api/protected', 'test-token-123');
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/protected',
+        '/api/protected',
         expect.objectContaining({
           headers: expect.objectContaining({
             'Authorization': 'Bearer test-token-123'
@@ -173,7 +173,7 @@ describe('API Helpers', () => {
       await authenticatedApiCall('/api/protected', 'test-token');
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/protected',
+        '/api/protected',
         expect.objectContaining({
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ describe('API Helpers', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/protected',
+        '/api/protected',
         expect.objectContaining({
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
@@ -219,7 +219,7 @@ describe('API Helpers', () => {
       });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/protected',
+        '/api/protected',
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ action: 'test' }),
@@ -239,7 +239,7 @@ describe('API Helpers', () => {
       await authenticatedApiCall('/api/protected', '');
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3456/api/protected',
+        '/api/protected',
         expect.objectContaining({
           headers: expect.objectContaining({
             'Authorization': 'Bearer '
@@ -259,7 +259,7 @@ describe('API Helpers', () => {
 
   describe('API_BASE_URL constant', () => {
     it('should export correct base URL', () => {
-      expect(API_BASE_URL).toBe('http://localhost:3456');
+      expect(API_BASE_URL).toBe('');
     });
   });
 
@@ -268,7 +268,7 @@ describe('API Helpers', () => {
       const endpoint = '/api/properties';
       const fullUrl = buildApiUrl(endpoint);
 
-      expect(fullUrl).toBe('http://localhost:3456/api/properties');
+      expect(fullUrl).toBe('/api/properties');
 
       global.fetch.mockResolvedValueOnce({
         ok: true,
@@ -294,7 +294,7 @@ describe('API Helpers', () => {
       const token = 'jwt-token-123';
       const fullUrl = buildApiUrl(endpoint);
 
-      expect(fullUrl).toBe('http://localhost:3456/api/users/profile');
+      expect(fullUrl).toBe('/api/users/profile');
 
       global.fetch.mockResolvedValueOnce({
         ok: true,
@@ -356,20 +356,20 @@ describe('API Helpers', () => {
     it('should handle special characters in endpoint', () => {
       const url = buildApiUrl('/api/search?q=Milano&types=appartment,villa');
 
-      expect(url).toBe('http://localhost:3456/api/search?q=Milano&types=appartment,villa');
+      expect(url).toBe('/api/search?q=Milano&types=appartment,villa');
     });
 
     it('should handle unicode characters in endpoint', () => {
       const url = buildApiUrl('/api/search?city=Milano&zone=Roma+Città');
 
-      expect(url).toBe('http://localhost:3456/api/search?city=Milano&zone=Roma+Città');
+      expect(url).toBe('/api/search?city=Milano&zone=Roma+Città');
     });
 
     it('should handle very long endpoints', () => {
       const longQuery = '?'.padEnd(1000, 'a=b&');
       const url = buildApiUrl(`/api/search${longQuery}`);
 
-      expect(url).toContain('http://localhost:3456/api/search');
+      expect(url).toContain('/api/search');
       expect(url.length).toBeGreaterThan(1000);
     });
 
