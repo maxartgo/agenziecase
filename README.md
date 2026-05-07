@@ -2,6 +2,14 @@
 
 Un portale immobiliare moderno con assistente AI powered by Claude.
 
+## 📚 Documentazione
+
+**Guarda la [documentazione completa](docs/INDEX.md) per:**
+- 🏠 [Guida Utenti Finali](docs/USER_GUIDE_END_CUSTOMERS.md)
+- 🏢 [Guida Partner Agenzie](docs/USER_GUIDE_PARTNERS.md)
+- 🔐 [Guida Amministratori](docs/USER_GUIDE_ADMIN.md)
+- 📚 [Documentazione API](docs/API_DOCUMENTATION.md)
+
 ## 🚀 Come avviare il progetto
 
 ### 1. Configura il Backend (per AI)
