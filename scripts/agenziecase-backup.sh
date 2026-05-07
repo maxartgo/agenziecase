@@ -22,11 +22,11 @@ DB_PORT="5432"
 # Container name
 CONTAINER_NAME="agenziecase-db-1"
 
-echo "===== Backup iniziato: $(date) =====" >> "$LOG_FILE"
-
-# Create backup directory
+# Create backup and log directories FIRST
 mkdir -p "$BACKUP_DIR"
 mkdir -p "$(dirname "$LOG_FILE")"
+
+echo "===== Backup iniziato: $(date) =====" >> "$LOG_FILE"
 
 # Function to log messages
 log() {
