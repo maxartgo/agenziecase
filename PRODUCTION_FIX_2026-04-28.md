@@ -145,4 +145,64 @@ SMTP_PASSWORD=[REDACTED_PASSWORD]
 
 ---
 
-*Ultimo aggiornamento: 30 Aprile 2026, 08:45*
+# 🔧 Sessione Successiva — 6 Maggio 2026
+
+## Nuove Funzionalità Deployate
+
+### 1. Frontend CRM Completo
+- **`ChatVisitConfirmation.jsx`** — Form GDPR-compliant per prenotare visite direttamente dalla chat AI. Include: nome, email, telefono, data/ora, checkbox privacy esplicita.
+- **`CRMDashboard.jsx`** — Abilitate 4 sezioni CRM funzionali:
+  - 👥 **Clienti** (`/api/crm/clients`)
+  - 📅 **Appuntamenti** (`/api/crm/appointments`)
+  - 💼 **Trattative** (`/api/crm/deals`)
+  - 📝 **Attività** (`/api/crm/activities`)
+  - Ricerca, creazione ed eliminazione record integrate
+- **Chat AI** — Aggiunto pulsante "📅 Fissa Visita" sotto ogni immobile in chat. Al click apre il form GDPR e chiama `POST /api/ai-crm/create-appointment`.
+
+### 2. Backend Fixes
+- **`server/models/Partner.js`** — Aggiunti campi CRM subscription mancanti nel modello Sequelize:
+  `crmSubscriptionActive`, `crmSubscriptionPlan`, `crmTeamSize`, `crmMonthlyPrice`, `crmAnnualPrice`, `crmSubscriptionStart`, `crmSubscriptionEnd`, `crmPaymentType`, `crmLastPayment`, `crmAutoRenew`
+- **`server/middleware/auth.js`** — `authenticateToken` e `optionalAuth` ora caricano `partnerId` dal database quando l'utente ha ruolo `partner`. Risolve il problema per cui l'endpoint `/api/crm-subscriptions/status` non trovava il partner.
+- **`server/index.js` (chat AI)** — Aggiunte 4 regole anti-allucinazione al system prompt. L'AI ora riceve nel contesto i dati REALI delle agenzie partner attive dal DB, vietando esplicitamente di inventare nomi, telefoni o email.
+
+### 3. Database
+- Eseguita migration `add_crm_subscription.sql` su produzione (campi CRM su tabella `partners`)
+- Attivato abbonamento CRM per partner **AgenziaTest** (ID 1):
+  - Piano: `professional`
+  - Team size: `10`
+  - Durata: 1 anno
+  - Stato: **attivo**
+
+### 4. Sicurezza
+- **Git history cleanup** — Rimossa password email esposta (`Unonovesettecinque75@`) da tutta la storia Git via `git-filter-repo` + force push
+- **PostgreSQL exposure fix** — Rimossa mappatura `5432:5432` da `docker-compose.yml`. PostgreSQL ora accessibile SOLO dalla rete Docker interna (non più esposto su Internet). Container ricreato e healthy.
+
+---
+
+## Stato Finale Container
+
+```
+✅ agenziecase-frontend   → running   (Porta 80)
+✅ agenziecase-backend    → healthy   (Porta 3456)
+✅ agenziecase-db         → healthy   (Rete interna Docker — non esposto)
+✅ agenziecase-redis      → healthy   (Rete interna Docker — non esposto)
+```
+
+---
+
+## File Modificati (sessione corrente)
+
+- `src/AgenzieCase.jsx`
+- `src/components/CRMDashboard.jsx`
+- `src/components/ChatVisitConfirmation.jsx` (nuovo)
+- `src/components/CRMDataManager.jsx` (esistente, integrato)
+- `server/models/Partner.js`
+- `server/middleware/auth.js`
+- `server/index.js`
+- `server/migrations/add_crm_subscription.sql`
+- `docker-compose.yml`
+- `PRODUCTION_FIX_2026-04-28.md` (questo file)
+
+---
+
+*Ultimo aggiornamento: 6 Maggio 2026, 19:25*
