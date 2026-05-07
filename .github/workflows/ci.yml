@@ -179,7 +179,7 @@ jobs:
           script: |
             set -e
             echo "🚀 Deploying to staging..."
-            cd /root/agenziecase
+            cd /var/www/agenziecase
             git fetch origin
             git reset --hard origin/develop
             docker compose -f docker-compose.yml -f docker-compose.staging.yml pull
@@ -217,7 +217,7 @@ jobs:
           script: |
             set -e
             echo "🚀 Deploying to production..."
-            cd /root/agenziecase
+            cd /var/www/agenziecase
             git fetch origin
             git reset --hard origin/main
             docker compose pull
