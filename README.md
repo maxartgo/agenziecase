@@ -121,7 +121,7 @@ Claude API ha un costo per token:
 - **Deploy automatico** su push (branch main)
 - **Test automatici** su ogni commit
 - **Server:** Hetzner (178.104.183.66)
-- **Ultimo test CI/CD:** 2026-05-07
+- **Ultimo test CI/CD:** 2026-05-07 (RSA Key)
 
 ---
 
