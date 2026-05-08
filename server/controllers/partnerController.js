@@ -126,6 +126,9 @@ export const registerPartner = async (req, res) => {
       status: 'pending' // In attesa di approvazione e pagamento
     });
 
+    // CRITICAL: Aggiorna l'utente con partnerId
+    await newUser.update({ partnerId: newPartner.id });
+
     // Genera token JWT
     const token = generateToken(newUser.id);
 
