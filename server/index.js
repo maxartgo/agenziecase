@@ -12,10 +12,6 @@ import { setupSecurity, customSecurityHeaders } from './middleware/security.js';
 import Property from './models/Property.js';
 import Partner from './models/Partner.js';
 
-// Sentry Error Tracking (production only)
-if (process.env.NODE_ENV === 'production') {
-  require('./sentry.cjs');
-}
 import propertyRoutes from './routes/propertyRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import partnerRoutes from './routes/partners.js';
